@@ -2,7 +2,7 @@
  * @file ApiResponse.ts
  * @description Centralized API response handler.
  * @author Lucas
- * @license Apache-2.0
+ * @license MIT
  */
 
 import {
@@ -11,15 +11,15 @@ import {
     ApiSuccessCodes,
     ApiHTTPCodeMap,
     ApiErrorCodes
-} from '@fc/core';
-import { InternalErrorException } from './exceptions/infra/InternalError';
+} from '@astra/core';
+import { InternalErrorException } from '../exceptions/infra/InternalError';
 import { getReasonPhrase } from 'http-status-codes';
 import type { Request, Response } from 'express';
 
 /**
  * Defines the input structure for creating a standardized API response.
  */
-interface CreateApiResponseOptions<T = any> {
+export interface CreateApiResponseOptions<T = any> {
     /** Internal response code representing the result of the operation. */
     apiCode: ApiSuccessCodes | ApiErrorCodes;
 

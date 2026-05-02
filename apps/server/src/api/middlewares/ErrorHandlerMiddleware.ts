@@ -14,7 +14,7 @@ import {
     HttpError
 } from 'routing-controllers';
 import { BaseException } from '../responses/exceptions/Base';
-import { type ApiResponse, ApiErrorCodes } from '@fc/core';
+import { type ApiResponse, ApiErrorCodes } from '@astra/core';
 import { ValidationError } from 'class-validator';
 import type { Request, Response } from 'express';
 import { sendApiResponse } from '../responses';

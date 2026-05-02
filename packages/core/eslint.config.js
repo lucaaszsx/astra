@@ -1,3 +1,3 @@
-import { baseConfig } from '@fc/eslint-conf';
+import { baseConfig } from '@astra/eslint-setup';
 
 export default baseConfig;

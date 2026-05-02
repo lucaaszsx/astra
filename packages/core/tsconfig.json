@@ -6,8 +6,7 @@
         "outDir": "./dist",
 
         "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo",
-        "ignoreDeprecations": "6.0",
-
+        
         "types": []
     },
     "include": ["lib/**/*.ts"],

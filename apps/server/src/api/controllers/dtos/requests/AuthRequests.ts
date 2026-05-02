@@ -6,7 +6,7 @@
  */
 
 import { IsRequiredEmail, IsRequiredString } from '@/decorators';
-import { UserRules } from '@fc/core';
+import { UserRules } from '@astra/core';
 
 export class RegisterRequest {
     @IsRequiredString(UserRules.NAME.MIN_LENGTH, UserRules.NAME.MAX_LENGTH, UserRules.NAME.REGEX)

@@ -10,7 +10,7 @@ import { JsonController, Get, Req, Authorized } from 'routing-controllers';
 import { PrivateUserModel } from './dtos/responses/models';
 import { BaseController } from './BaseController';
 import { UserService } from '../services/UserService';
-import type { ApiResponse } from '@fc/core';
+import type { ApiResponse } from '@astra/core';
 import type { Request } from 'express';
 import { Service } from 'typedi';
 

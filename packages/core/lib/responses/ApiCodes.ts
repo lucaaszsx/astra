@@ -52,6 +52,10 @@ export enum ApiErrorCodes {
     ACCESS_TOKEN_EXPIRED = 2105,
     UNAUTHORIZED = 2106,
     FORBIDDEN = 2107,
+    INVALID_CODE = 2108,
+    CODE_EXPIRED = 2109,
+    CODE_ALREADY_USED = 2110,
+    CODE_MISSING = 2111,
 
     // ────────────────────────────────
     // Validation Errors (2200–2299)

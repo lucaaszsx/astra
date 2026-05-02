@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-import { type ApiResponse, ApiSuccessCodes } from '@fc/core';
+import { type ApiResponse, ApiSuccessCodes } from '@astra/core';
 import type { Request as ExpressRequest } from 'express';
 import { createApiResponse } from '../responses';
 

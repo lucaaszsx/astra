@@ -6,7 +6,7 @@
  * @license MIT
  */
 
-import { ApiErrorCodes } from '@fc/core';
+import { ApiErrorCodes } from '@astra/core';
 import { BaseException } from '../Base';
 
 export class UserNotFoundException extends BaseException {

@@ -8,6 +8,9 @@
 /** Constants */
 export { PermissionsFlags } from './constants/PermissionsFlags';
 
+/** Enums */
+export { VerificationContext } from './enums/VerificationContext';
+
 /** Helpers */
 export { PermissionsBitField } from './helpers/PermissionsBitField';
 export { BitField } from './helpers/BitField';

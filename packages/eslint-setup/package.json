@@ -1,10 +1,16 @@
 {
     "$schema": "https://json.schemastore.org/package.json",
-    "name": "astra",
-    "description": "Astra is a streaming service for films and series, designed to help you discover and watch content easily in one place.",
-    "type": "module",
+    "name": "@astra/eslint-setup",
+    "description": "Eslint configurations for project standardization.",
     "license": "MIT",
+    "type": "module",
     "private": true,
+    "main": "index.js",
+    "exports": {
+        ".": "./lib/index.mjs",
+        "./serverConfig": "./lib/configs/serverConfig.mjs",
+        "./webConfig": "./lib/configs/webConfig.mjs"
+    },
     "keywords": [
         "movies",
         "series",
@@ -38,19 +44,20 @@
     },
     "homepage": "https://github.com/lucaaszsx/astra#README",
     "scripts": {
-        "build": "turbo run build",
-        "dev": "turbo run dev",
-        "lint": "turbo run lint",
-        "format": "prettier --write .",
-        "format:check": "prettier --check ."
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "packageManager": "pnpm@10.28.0",
     "engines": {
-        "node": ">=18"
+        "node": ">=18.0.0"
     },
     "devDependencies": {
-        "prettier": "^3.6.2",
-        "turbo": "^2.6.1",
-        "typescript": "5.9.2"
+        "@eslint/js": "^9.39.2",
+        "eslint": "^8.57.1",
+        "eslint-plugin-react": "^7.37.5",
+        "eslint-plugin-react-hooks": "^7.0.1",
+        "eslint-plugin-turbo": "^2.8.0",
+        "eslint-plugin-vitest": "^0.5.4",
+        "typescript-eslint": "^8.54.0"
     }
 }

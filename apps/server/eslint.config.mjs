@@ -1,3 +1,3 @@
-import { serverConfig } from '@fc/eslint-conf/serverConfig';
+import { serverConfig } from '@astra/eslint-setup/serverConfig';
 
 export default serverConfig;

@@ -6,7 +6,7 @@
  * @license Apache-2.0
  */
 
-import { ApiErrorCodes } from '@fc/core';
+import { ApiErrorCodes } from '@astra/core';
 
 export class BaseException extends Error {
     public readonly apiCode: ApiErrorCodes;

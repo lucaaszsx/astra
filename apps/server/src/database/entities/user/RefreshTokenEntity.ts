@@ -1,4 +1,4 @@
-import { JoinColumn, ManyToOne, Relation, Entity, Column, Index } from 'typeorm';
+import { type Relation, JoinColumn, ManyToOne, Entity, Column, Index } from 'typeorm';
 import { SessionEntity } from './SessionEntity';
 import { BaseEntity } from '../BaseEntity';
 

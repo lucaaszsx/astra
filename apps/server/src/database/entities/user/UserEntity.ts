@@ -1,8 +1,9 @@
-import { JoinColumn, ManyToOne, OneToMany, Relation, Column, Entity, Index } from 'typeorm';
+import { type Relation, JoinColumn, ManyToOne, OneToMany, Column, Entity, Index } from 'typeorm';
+import { VerificationCodeEntity } from './VerificationCodeEntity';
 import { SessionEntity } from './SessionEntity';
 import { BaseEntity } from '../BaseEntity';
 import { RoleEntity } from './RoleEntity';
-import { UserRules } from '@fc/core';
+import { UserRules } from '@astra/core';
 
 @Entity({ name: 'users' })
 export class UserEntity extends BaseEntity {
@@ -30,6 +31,9 @@ export class UserEntity extends BaseEntity {
     @Column({ name: 'is_active', type: 'boolean', default: true })
     public isActive: boolean;
 
+    @Column({ name: 'is_verified', type: 'boolean', default: false })
+    public isVerified: boolean;
+
     @ManyToOne(() => RoleEntity, (role) => role.users, { nullable: true })
     @JoinColumn({ name: 'role_id' })
     @Index('idx_users_role_id')
@@ -37,4 +41,7 @@ export class UserEntity extends BaseEntity {
 
     @OneToMany(() => SessionEntity, (session) => session.user)
     public sessions: Relation<SessionEntity[]>;
+
+    @OneToMany(() => VerificationCodeEntity, (code) => code.user)
+    public verificationCodes: Relation<VerificationCodeEntity[]>;
 }

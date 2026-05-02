@@ -8,7 +8,7 @@
 import type { PingResponse } from './dtos/responses/SystemResponses';
 import { JsonController, Get, Req } from 'routing-controllers';
 import { BaseController } from './BaseController';
-import type { ApiResponse } from '@fc/core';
+import type { ApiResponse } from '@astra/core';
 import type { Request } from 'express';
 import { Service } from 'typedi';
 

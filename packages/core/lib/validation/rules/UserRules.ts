@@ -8,7 +8,7 @@
 export const UserRules = {
     NAME: {
         MIN_LENGTH: 5,
-        MAX_LENGTH: 150,
+        MAX_LENGTH: 100,
         REGEX: /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[ '-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/
     },
 

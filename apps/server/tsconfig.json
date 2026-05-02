@@ -16,8 +16,7 @@
         "removeComments": false,
         "composite": false,
 
-        "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo",
-        "ignoreDeprecations": "6.0"
+        "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo"
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules", "dist"]

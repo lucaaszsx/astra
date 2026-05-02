@@ -1,4 +1,4 @@
-import { JoinColumn, ManyToOne, OneToMany, Relation, Column, Entity, Index } from 'typeorm';
+import { type Relation, JoinColumn, ManyToOne, OneToMany, Column, Entity, Index } from 'typeorm';
 import { RefreshTokenEntity } from './RefreshTokenEntity';
 import { BaseEntity } from '../BaseEntity';
 import { UserEntity } from './UserEntity';

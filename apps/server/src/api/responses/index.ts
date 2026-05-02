@@ -22,10 +22,10 @@ export { BaseException } from './exceptions/Base';
 // export { InvalidAccessTokenException } from './exceptions/auth/tokens/InvalidAccessToken';
 // export { AccessTokenExpiredException } from './exceptions/auth/tokens/AccessTokenExpired';
 
-// export { InvalidCodeException } from './exceptions/auth/verification/InvalidCode';
-// export { CodeAlreadyUsedException } from './exceptions/auth/verification/CodeAlreadyUsed';
-// export { CodeExpiredException } from './exceptions/auth/verification/CodeExpired';
-// export { CodeMissingException } from './exceptions/auth/verification/CodeMissing';
+export { InvalidCodeException } from './exceptions/auth/verification/InvalidCode';
+export { CodeAlreadyUsedException } from './exceptions/auth/verification/CodeAlreadyUsed';
+export { CodeExpiredException } from './exceptions/auth/verification/CodeExpired';
+export { CodeMissingException } from './exceptions/auth/verification/CodeMissing';
 
 // ────────────────────────────────
 // Users
@@ -53,4 +53,4 @@ export { EmailCannotBeSentException } from './exceptions/infra/EmailCannotBeSent
 export { TooManyRequestsException } from './exceptions/preventions/TooManyRequests';
 
 /** API Response handler */
-export * from './ApiResponse';
+export { type CreateApiResponseOptions, createApiResponse } from './utils/createApiResponse';

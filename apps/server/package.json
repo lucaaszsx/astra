@@ -1,35 +1,43 @@
 {
     "$schema": "https://json.schemastore.org/package.json",
-    "name": "api-frequency-control",
-    "description": "A school frequency control application for managing and monitoring student attendance.",
+    "name": "astra-server",
+    "description": "Astra is a streaming service for films and series, designed to help you discover and watch content easily in one place.",
     "license": "MIT",
     "private": true,
-    "version": "1.0.0",
     "type": "commonjs",
     "main": "dist/App.js",
     "keywords": [
-        "development",
-        "software",
-        "Android",
-        "mobile",
-        "editor",
-        "api"
+        "movies",
+        "series",
+        "streaming",
+        "subscriptions",
+        "cinema",
+        "action",
+        "science",
+        "romance",
+        "horror",
+        "tv"
     ],
     "contributors": [
         {
             "email": "jlucasmelob558@gmail.com",
-            "name": "Lucas",
+            "name": "Lucas Melo",
             "url": "https://github.com/lucaaszsx"
+        },
+        {
+            "email": "ngeff@outlook.com.br",
+            "name": "Geferson Amaro",
+            "url": "https://github.com/NGeff"
         }
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/lucaaszsx/frequency-control.git"
+        "url": "https://github.com/lucaaszsx/astra.git"
     },
     "bugs": {
-        "url": "https://github.com/lucaaszsx/frequency-control/issues"
+        "url": "https://github.com/lucaaszsx/astra/issues"
     },
-    "homepage": "https://github.com/lucaaszsx/frequency-control#README",
+    "homepage": "https://github.com/lucaaszsx/astra#README",
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "clean": "rimraf ./dist",
@@ -46,8 +54,8 @@
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.937.0",
-        "@fc/core": "workspace:*",
-        "@fc/eslint-conf": "workspace:*",
+        "@astra/core": "workspace:*",
+        "@astra/eslint-setup": "workspace:*",
         "bcrypt": "^6.0.0",
         "body-parser": "^2.2.0",
         "chalk": "^5.6.2",

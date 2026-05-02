@@ -1,10 +1,9 @@
 {
     "$schema": "https://json.schemastore.org/package.json",
-    "name": "@fc/core",
-    "description": "Core utilities, shared types, enums and API contracts for frequency control system.",
+    "name": "@astra/core",
+    "description": "Core utilities, shared types, enums and API contracts for Astra system.",
     "license": "MIT",
     "private": true,
-    "version": "1.0.0",
     "type": "commonjs",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
@@ -12,39 +11,49 @@
         ".": "./dist/index.js"
     },
     "keywords": [
-        "development",
-        "software",
-        "Android",
-        "mobile",
-        "editor",
-        "api"
+        "movies",
+        "series",
+        "streaming",
+        "subscriptions",
+        "cinema",
+        "action",
+        "science",
+        "romance",
+        "horror",
+        "tv"
     ],
     "contributors": [
         {
             "email": "jlucasmelob558@gmail.com",
             "name": "Lucas Melo",
             "url": "https://github.com/lucaaszsx"
+        },
+        {
+            "email": "ngeff@outlook.com.br",
+            "name": "Geferson Amaro",
+            "url": "https://github.com/NGeff"
         }
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/lucaaszsx/frequency-control.git"
+        "url": "https://github.com/lucaaszsx/astra.git"
     },
     "bugs": {
-        "url": "https://github.com/lucaaszsx/frequency-control/issues"
+        "url": "https://github.com/lucaaszsx/astra/issues"
     },
-    "homepage": "https://github.com/lucaaszsx/frequency-control#README",
+    "homepage": "https://github.com/lucaaszsx/astra#README",
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "clean": "rimraf ./dist",
         "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
-        "format": "prettier . --check",
-        "format:fix": "prettier . --write"
+        "lint:fix": "eslint . --fix"
     },
     "packageManager": "pnpm@10.28.0",
+    "engines": {
+        "node": ">=18.0.0"
+    },
     "devDependencies": {
-        "@fc/eslint-conf": "workspace:*",
+        "@astra/eslint-setup": "workspace:*",
         "rimraf": "^6.1.2",
         "typescript": "^5.9.3"
     },

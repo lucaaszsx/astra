@@ -1,7 +1,7 @@
-import { Column, Entity, OneToMany, Relation } from 'typeorm';
+import { type Relation, Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '../BaseEntity';
 import { UserEntity } from './UserEntity';
-import { RoleRules } from '@fc/core';
+import { RoleRules } from '@astra/core';
 
 @Entity({ name: 'roles' })
 export class RoleEntity extends BaseEntity {

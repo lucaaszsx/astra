@@ -33,6 +33,10 @@ export const ApiErrorMessages: Record<ApiErrorCodes, string> = {
     [ApiErrorCodes.ACCESS_TOKEN_EXPIRED]: 'Access token has expired, please refresh your session',
     [ApiErrorCodes.UNAUTHORIZED]: 'Authentication is required to access this resource',
     [ApiErrorCodes.FORBIDDEN]: 'You do not have permission to perform this action',
+    [ApiErrorCodes.INVALID_CODE]: 'Provided verification code is invalid',
+    [ApiErrorCodes.CODE_EXPIRED]: 'Verification code has expired and can no longer be used',
+    [ApiErrorCodes.CODE_ALREADY_USED]: 'Verification code has already been used',
+    [ApiErrorCodes.CODE_MISSING]: 'Verification code is missing from the request',
 
     // ────────────────────────────────
     // Validation Errors

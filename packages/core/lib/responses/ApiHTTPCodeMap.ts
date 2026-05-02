@@ -1,7 +1,6 @@
 /**
  * @file ApiHTTPCodeMap.ts
  * @description Maps internal API codes to corresponding HTTP status codes.
- *
  * @author Lucas
  * @license MIT
  */
@@ -41,6 +40,10 @@ export const ApiHTTPCodeMap: Record<number, StatusCodes> = {
     [ApiErrorCodes.ACCESS_TOKEN_EXPIRED]: StatusCodes.UNAUTHORIZED,
     [ApiErrorCodes.UNAUTHORIZED]: StatusCodes.UNAUTHORIZED,
     [ApiErrorCodes.FORBIDDEN]: StatusCodes.FORBIDDEN,
+    [ApiErrorCodes.INVALID_CODE]: StatusCodes.UNPROCESSABLE_ENTITY,
+    [ApiErrorCodes.CODE_EXPIRED]: StatusCodes.UNAUTHORIZED,
+    [ApiErrorCodes.CODE_ALREADY_USED]: StatusCodes.UNAUTHORIZED,
+    [ApiErrorCodes.CODE_MISSING]: StatusCodes.UNAUTHORIZED,
 
     // ────────────────────────────────
     // Validation Errors
