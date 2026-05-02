@@ -1,35 +1,40 @@
 /**
  * @file LoggerLoader.ts
  * @description Configures the Winston logger and loads it into the microframework context.
+ * Applies different formatting for development and production environments.
  * @author Lucas
  * @license MIT
  */
 
-import { MicroframeworkLoader } from 'microframework-w3tec';
+import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework-w3tec';
 import { transports, configure, format } from 'winston';
 import { Logger, loggerContext } from '@/lib/logger';
 import { mkdirSync, existsSync } from 'node:fs';
 import { Env } from '@/config/env';
 import DailyRotateFile from 'winston-daily-rotate-file';
+import chalk from 'chalk';
 
-const { logs: logConfig } = Env.App;
-const normalizeMessage = format((info) => {
-    if (info.message instanceof Error) {
-        info.stack = info.message.stack;
-        info.message = info.message.message;
-    }
+export const LoggerLoader: MicroframeworkLoader = async (
+    settings?: MicroframeworkSettings
+): Promise<void> => {
+    const { logs: logConfig } = Env.App;
 
-    if (typeof info.message === 'object') info.message = JSON.stringify(info.message, null, 2);
-
-    return info;
-});
-
-const contextFormat = format((info) => {
-    return { ...info, ...loggerContext.getContext() };
-});
-
-export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
     if (!existsSync(logConfig.dirname)) mkdirSync(logConfig.dirname, { recursive: true });
+
+    const normalizeMessage = format((info) => {
+        if (info.message instanceof Error) {
+            info.stack = info.message.stack;
+            info.message = info.message.message;
+        }
+
+        if (typeof info.message === 'object') info.message = JSON.stringify(info.message, null, 2);
+
+        return info;
+    });
+
+    const contextFormat = format((info) => {
+        return { ...info, ...loggerContext.getContext() };
+    });
 
     const baseFormat = format.combine(
         format.splat(),
@@ -38,6 +43,7 @@ export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
         format.errors({ stack: true }),
         format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' })
     );
+
     const devFormat = format.combine(
         baseFormat,
         format.colorize({ all: true }),
@@ -47,6 +53,7 @@ export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
                 level,
                 message,
                 stack,
+                scope,
                 requestId,
                 identifier,
                 method,
@@ -54,6 +61,7 @@ export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
                 ...meta
             } = info;
 
+            const scopeStr = scope ? chalk.hex('#9713cbff')(`[${scope}]`) : '';
             const contextStr = requestId
                 ? `[${requestId}${identifier ? ` | ${identifier}` : ''}${method && path ? ` | ${method} ${path}` : ''}]`
                 : '';
@@ -61,9 +69,13 @@ export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
             const metaStr =
                 Object.keys(meta).length > 0 ? `\n${JSON.stringify(meta, null, 2)}` : '';
 
-            return `${timestamp} - [${level}] ${contextStr ? `${contextStr} ` : ''}${message}${stack ? `\n${stack}` : ''}${metaStr}`;
+            const prefix = [scopeStr, contextStr].filter(Boolean).join(' ');
+
+            return `${timestamp} - [${level}] ${prefix ? `${prefix} ` : ''}${message}${stack ? `\n${stack}` : ''}${metaStr}`;
         })
     );
+
+    // Production format: clean JSON without any ANSI codes
     const prodFormat = format.combine(baseFormat, format.json());
 
     const chosenFormat = Env.node === 'dev' ? devFormat : prodFormat;
@@ -80,9 +92,7 @@ export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
         format: chosenFormat,
 
         transports: [
-            new transports.Console({
-                handleExceptions: true
-            }),
+            new transports.Console({ handleExceptions: true }),
 
             new DailyRotateFile({
                 ...rotateOptions,

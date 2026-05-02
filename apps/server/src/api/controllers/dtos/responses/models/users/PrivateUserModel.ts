@@ -15,10 +15,10 @@ export class PrivateUserModel {
     public updatedAt: Date;
 
     constructor(data: PrivateUserModel) {
-        this.id        = data.id;
-        this.name      = data.name;
-        this.email     = data.email;
-        this.isActive  = data.isActive;
+        this.id = data.id;
+        this.name = data.name;
+        this.email = data.email;
+        this.isActive = data.isActive;
         this.createdAt = data.createdAt;
         this.updatedAt = data.updatedAt;
     }

@@ -19,7 +19,7 @@ import { UserEntity } from '@/database/entities/user/UserEntity';
 import { appDataSource } from '@/database/AppDataSource';
 
 /** User */
-export const userRepository         = appDataSource.getRepository(UserEntity);
-export const roleRepository         = appDataSource.getRepository(RoleEntity);
-export const sessionRepository      = appDataSource.getRepository(SessionEntity);
+export const userRepository = appDataSource.getRepository(UserEntity);
+export const roleRepository = appDataSource.getRepository(RoleEntity);
+export const sessionRepository = appDataSource.getRepository(SessionEntity);
 export const refreshTokenRepository = appDataSource.getRepository(RefreshTokenEntity);

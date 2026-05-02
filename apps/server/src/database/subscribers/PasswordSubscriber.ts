@@ -7,12 +7,7 @@
  * @license MIT
  */
 
-import {
-    EntitySubscriberInterface,
-    EventSubscriber,
-    InsertEvent,
-    UpdateEvent
-} from 'typeorm';
+import { EntitySubscriberInterface, EventSubscriber, InsertEvent, UpdateEvent } from 'typeorm';
 import { UserEntity } from '@/database/entities/user/UserEntity';
 import * as bcrypt from 'bcrypt';
 

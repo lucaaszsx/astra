@@ -6,7 +6,7 @@
  * @license Apache-2.0
  */
 
-import { ApiErrorCodes } from '@vsa/core';
+import { ApiErrorCodes } from '@fc/core';
 import { BaseException } from '../Base';
 
 export class InternalErrorException extends BaseException {

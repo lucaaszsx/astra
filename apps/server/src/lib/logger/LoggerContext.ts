@@ -1,6 +1,6 @@
 /**
  * @file LoggerContext.ts
- * @description Provides a logger context for printing messages with request informations.
+ * @description Provides a logger context for printing messages with request information.
  * @author Lucas
  * @license MIT
  */
@@ -21,7 +21,7 @@ class LoggerContext {
         this.asyncLocalStorage = new AsyncLocalStorage();
     }
 
-    public run(context: RequestContext, callback: () => unknown) {
+    public run<T>(context: RequestContext, callback: () => T): T {
         return this.asyncLocalStorage.run(context, callback);
     }
 

@@ -12,7 +12,13 @@ export class RefreshTokenEntity extends BaseEntity {
     @JoinColumn({ name: 'session_id' })
     public session: Relation<SessionEntity>;
 
-    @Column({ name: 'token', type: 'varchar', length: 64, unique: true, comment: 'sha256 hex hash' })
+    @Column({
+        name: 'token',
+        type: 'varchar',
+        length: 64,
+        unique: true,
+        comment: 'sha256 hex hash'
+    })
     public token: string;
 
     @Column({ name: 'expires_at', type: 'timestamp' })

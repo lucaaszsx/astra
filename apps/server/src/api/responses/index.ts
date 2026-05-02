@@ -2,7 +2,7 @@
  * @file index.ts
  * @description Central export hub for all exception classes and API response utilities for simplified imports across the application layer. Includes custom exceptions, API response formatters, codes, and HTTP mappings.
  * @author Lucas
- * @license Apache-2.0
+ * @license MIT
  */
 
 /** Exceptions */
@@ -45,6 +45,7 @@ export { NotFoundException } from './exceptions/domain/NotFound';
 // Infrastructure / Internal
 // ────────────────────────────────
 export { InternalErrorException } from './exceptions/infra/InternalError';
+export { EmailCannotBeSentException } from './exceptions/infra/EmailCannotBeSent';
 
 // ────────────────────────────────
 // Rate Limiting / Preventions

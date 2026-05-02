@@ -6,4 +6,4 @@
  */
 
 export { PrivateUserModel } from './users/PrivateUserModel';
-export { PublicUserModel  } from './users/PublicUserModel';
+export { PublicUserModel } from './users/PublicUserModel';

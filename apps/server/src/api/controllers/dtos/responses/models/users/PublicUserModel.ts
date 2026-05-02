@@ -11,7 +11,7 @@ export class PublicUserModel {
     public name: string;
 
     constructor(data: PublicUserModel) {
-        this.id   = data.id;
+        this.id = data.id;
         this.name = data.name;
     }
 }

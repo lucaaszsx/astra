@@ -35,12 +35,12 @@ export class UserService {
     }
 
     public async find(options: FindUsersOptions): Promise<UserEntity[]> {
-        const page  = options.page  ?? 1;
+        const page = options.page ?? 1;
         const limit = options.limit ?? 10;
 
         return userRepository.find({
-            skip:  (page - 1) * limit,
-            take:  limit,
+            skip: (page - 1) * limit,
+            take: limit,
             order: { createdAt: 'DESC' }
         });
     }

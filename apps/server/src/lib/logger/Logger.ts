@@ -8,7 +8,6 @@
 import { PROJECT_PATHS } from '@/config/constants';
 import winston from 'winston';
 import path from 'node:path';
-import chalk from 'chalk';
 
 /**
  * Interface representing the logger structure
@@ -67,61 +66,32 @@ export class Logger implements LoggerInterface {
      * @param scope - Optional scope, typically the current file's `__filename`
      */
     constructor(scope?: string) {
-        this.scope = Logger.parsePathToScope(scope ? scope : Logger.DEFAULT_SCOPE);
+        this.scope = Logger.parsePathToScope(scope ?? Logger.DEFAULT_SCOPE);
     }
 
-    /**
-     * Logs a debug-level message.
-     *
-     * @param message - Message to log
-     * @param args - Additional arguments (e.g., metadata)
-     */
     public debug(message: string, ...args: any[]): void {
         this.log(LoggerLevels.DEBUG, message, args);
     }
 
-    /**
-     * Logs an info-level message.
-     *
-     * @param message - Message to log
-     * @param args - Additional arguments (e.g., metadata)
-     */
     public info(message: string, ...args: any[]): void {
         this.log(LoggerLevels.INFO, message, args);
     }
 
-    /**
-     * Logs a warning-level message.
-     *
-     * @param message - Message to log
-     * @param args - Additional arguments (e.g., metadata)
-     */
     public warn(message: string, ...args: any[]): void {
         this.log(LoggerLevels.WARN, message, args);
     }
 
-    /**
-     * Logs an error-level message.
-     *
-     * @param message - Message to log
-     * @param args - Additional arguments (e.g., metadata)
-     */
     public error(message: string, ...args: any[]): void {
         this.log(LoggerLevels.ERROR, message, args);
     }
 
-    /**
-     * Logs an http-level message.
-     *
-     * @param message - Message to log
-     * @param args - Additional arguments (e.g., metadata)
-     */
     public http(message: string, ...args: any[]): void {
         this.log(LoggerLevels.HTTP, message, args);
     }
 
     /**
      * Internal method to send a log message to Winston with proper scope formatting.
+     * The scope is passed as metadata so formatters can handle colorization per environment.
      *
      * @param level - Logging level from LoggerLevels
      * @param message - Message to log
@@ -129,15 +99,6 @@ export class Logger implements LoggerInterface {
      */
     private log(level: LoggerLevels, message: string, args: any[]): void {
         if (Object.prototype.hasOwnProperty.call(winston, level))
-            (winston as any)[level](`${this.formatScope()} ${message}`, ...args);
-    }
-
-    /**
-     * Formats the scope string for consistent log prefixing.
-     *
-     * @returns Scope wrapped in brackets (e.g., `[auth:controller]`)
-     */
-    private formatScope(): string {
-        return chalk.hex('#9713cbff')(`[${this.scope}]`);
+            (winston as any)[level](message, ...args, { scope: this.scope });
     }
 }

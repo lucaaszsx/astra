@@ -2,20 +2,14 @@ import { DataSourceOptions, DataSource } from 'typeorm';
 import { Env } from '@/config/env';
 
 const options: DataSourceOptions = {
-    type: Env.Pg.type,
-    host: Env.Pg.host,
-    port: Env.Pg.port,
-    username: Env.Pg.username,
-    password: Env.Pg.password,
-    database: Env.Pg.database,
+    type: 'postgres',
+    url: Env.Pg.url,
 
     synchronize: Env.Pg.synchronize,
-
-    migrationsRun: true,
+    migrationsRun: Env.node !== 'prod',
+    logging: Env.Pg.logging,
     entities: Env.App.dirs.entities,
     migrations: Env.App.dirs.migrations,
-
-    logging:     Env.Pg.logging,
     subscribers: Env.App.dirs.subscribers
 };
 

@@ -28,7 +28,7 @@ export default class CorsMiddleware {
                 if (!origin || allowedOrigins.includes(origin)) callback(null, true);
                 else callback(null, false);
             },
-            
+
             methods: middlewares.cors.methods,
             allowedHeaders: middlewares.cors.headers,
             credentials: middlewares.cors.credentials

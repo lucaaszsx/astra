@@ -1,5 +1,5 @@
 /**
- * @file EnvConfig.ts
+ * @file env.ts
  * @description Centralized runtime configuration using validated environment variables.
  * @author Lucas
  * @license MIT
@@ -14,9 +14,6 @@ import {
     EnvType
 } from '@/lib/env';
 
-/**
- * Server configuration
- */
 const Server = {
     port: getEnvVariable('SERVER_PORT'),
     baseUrl: getEnvVariable('SERVER_BASE_URL'),
@@ -44,9 +41,6 @@ const Server = {
     }
 };
 
-/**
- * Application configuration
- */
 const App = {
     logs: {
         level: getEnvVariable('APP_LOG_LEVEL'),
@@ -57,29 +51,22 @@ const App = {
     dirs: {
         controllers: parseEnvArray('APP_DIRS_CONTROLLERS', parsePath),
         middlewares: parseEnvArray('APP_DIRS_MIDDLEWARES', parsePath),
-
-        entities:    parseEnvArray('APP_DIRS_ENTITIES', parsePath),
-        migrations:  parseEnvArray('APP_DIRS_MIGRATIONS', parsePath),
+        entities: parseEnvArray('APP_DIRS_ENTITIES', parsePath),
+        migrations: parseEnvArray('APP_DIRS_MIGRATIONS', parsePath),
         subscribers: parseEnvArray('APP_DIRS_SUBSCRIBERS', parsePath)
     }
 };
 
-/**
- * External R2 storage configuration
- */
 const R2 = {
-    accessKeyId: getEnvVariable('EXTERNAL_R2_ACCESS_KEY_ID'),
-    secretAccessKey: getEnvVariable('EXTERNAL_R2_SECRET_ACESS_KEY'),
-    accountId: getEnvVariable('EXTERNAL_R2_ACCOUNT_ID'),
-    bucket: getEnvVariable('EXTERNAL_R2_BUCKET_NAME'),
-    endpoint: getEnvVariable('EXTERNAL_R2_ENDPOINT'),
-    publicEndpoint: getEnvOptional('EXTERNAL_R2_PUB_ENDPOINT'),
-    region: getEnvVariable('EXTERNAL_R2_REGION')
+    accessKeyId: getEnvVariable('R2_ACCESS_KEY_ID'),
+    secretAccessKey: getEnvVariable('R2_SECRET_ACESS_KEY'),
+    accountId: getEnvVariable('R2_ACCOUNT_ID'),
+    bucket: getEnvVariable('R2_BUCKET_NAME'),
+    endpoint: getEnvVariable('R2_ENDPOINT'),
+    publicEndpoint: getEnvOptional('R2_PUB_ENDPOINT'),
+    region: getEnvVariable('R2_REGION')
 };
 
-/**
- * Database configuration
- */
 const Pg = {
     type: getEnvVariable('DATABASE_TYPE'),
     host: getEnvVariable('DATABASE_HOST'),
@@ -88,15 +75,34 @@ const Pg = {
     password: getEnvVariable('DATABASE_PASSWORD'),
     database: getEnvVariable('DATABASE_NAME'),
     synchronize: getEnvVariable('DATABASE_SYNCHRONIZE'),
-    logging: getEnvVariable('DATABASE_LOGGING', EnvType.Bool)
+    logging: getEnvVariable('DATABASE_LOGGING', EnvType.Bool),
+
+    get url(): string {
+        return `${this.type}://${this.username}:${this.password}@${this.host}:${this.port}/${this.database}`;
+    }
 };
 
-// Configurations exports
+const Smtp = {
+    service: getEnvVariable('SMTP_SERVICE'),
+    name: getEnvVariable('SMTP_NAME'),
+    user: getEnvVariable('SMTP_USER'),
+    pass: getEnvVariable('SMTP_PASS')
+};
+
+const Jwt = {
+    accessSecret: getEnvVariable('JWT_ACCESS_SECRET'),
+    refreshSecret: getEnvVariable('JWT_REFRESH_SECRET'),
+    accessExpiresIn: getEnvVariable('JWT_ACCESS_EXPIRES_IN'),
+    refreshExpiresIn: getEnvVariable('JWT_REFRESH_EXPIRES_IN')
+};
+
 export const Env = {
     node: getEnvVariable('NODE_ENV'),
 
     Server,
     App,
     R2,
-    Pg
+    Pg,
+    Smtp,
+    Jwt
 };

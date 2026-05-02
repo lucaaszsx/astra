@@ -1,6 +1,7 @@
 /**
  * @file RequestContextMiddleware.ts
- * @description Middleware responsible for setting up context application middleware.
+ * @description Middleware responsible for initializing per-request logging context via AsyncLocalStorage.
+ * The identifier field is populated later by the authorization layer via loggerContext.updateContext().
  * @author Lucas
  * @license MIT
  */
@@ -16,15 +17,13 @@ import { Service } from 'typedi';
 export default class RequestContextMiddleware implements ExpressMiddlewareInterface {
     use(req: Request, res: Response, next: NextFunction): void {
         const context: RequestContext = {
-            requestId: (req.headers['X-Request-Id'] || uuidv4()) as string,
-            identifier: 'unknown',
+            requestId: (req.headers['x-request-id'] as string) || uuidv4(),
+            identifier: 'anonymous',
             method: req.method,
             path: req.path
         };
 
-        if (req.user?.id) context.identifier = req.user.id;
-
-        res.header('X-Request-Id', context.requestId);
+        res.setHeader('X-Request-Id', context.requestId);
 
         loggerContext.run(context, () => next());
     }
