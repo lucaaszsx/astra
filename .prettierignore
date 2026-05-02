@@ -1,0 +1,15 @@
+# Build
+**/build
+**/dist
+**/coverage
+
+# Logs
+logs
+log.
+
+# Dependencies
+**/node_modules
+*-lock.*
+
+# VSCode
+.vscode

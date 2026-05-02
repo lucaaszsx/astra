@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "rootDir": "./lib",
+        "outDir": "./dist",
+
+        "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo",
+        "ignoreDeprecations": "6.0",
+
+        "types": []
+    },
+    "include": ["lib/**/*.ts"],
+    "exclude": ["node_modules", "dist"]
+}

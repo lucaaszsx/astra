@@ -1,0 +1,30 @@
+/**
+ * @file UserErrors.ts
+ * @description Error codes of user validations
+ * @author Lucas
+ * @license MIT
+ */
+
+export const UserErrors = {
+    NAME: {
+        TOO_SHORT: 'USER.NAME.MIN_LENGTH',
+        TOO_LONG: 'USER.NAME.MAX_LENGTH',
+        INVALID_FORMAT: 'USER.NAME.INVALID_FORMAT'
+    },
+
+    EMAIL: {
+        TOO_SHORT: 'USER.EMAIL.MIN_LENGTH',
+        TOO_LONG: 'USER.EMAIL.MAX_LENGTH',
+        INVALID_FORMAT: 'USER.EMAIL.INVALID_FORMAT'
+    },
+
+    PASSWORD: {
+        TOO_SHORT: 'USER.PASSWORD.MIN_LENGTH',
+        TOO_LONG: 'USER.PASSWORD.MAX_LENGTH',
+        MISSING_LOWERCASE: 'USER.PASSWORD.MISSING_LOWERCASE',
+        MISSING_UPPERCASE: 'USER.PASSWORD.MISSING_UPPERCASE',
+        MISSING_NUMBER: 'USER.PASSWORD.MISSING_NUMBER',
+        MISSING_SPECIAL: 'USER.PASSWORD.MISSING_SPECIAL',
+        INVALID_FORMAT: 'USER.PASSWORD.INVALID_FORMAT'
+    }
+} as const;

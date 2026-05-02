@@ -1,0 +1,47 @@
+{
+    "$schema": "https://json.schemastore.org/package.json",
+    "name": "frequency-control",
+    "description": "",
+    "type": "module",
+    "license": "MIT",
+    "private": true,
+    "keywords": [
+        "students",
+        "school",
+        "frequency",
+        "system",
+        "presentation",
+        "api"
+    ],
+    "contributors": [
+        {
+            "email": "jlucasmelob558@gmail.com",
+            "name": "Lucas Melo",
+            "url": "https://github.com/lucaaszsx"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lucaaszsx/frequency-control.git"
+    },
+    "bugs": {
+        "url": "https://github.com/lucaaszsx/frequency-control/issues"
+    },
+    "homepage": "https://github.com/lucaaszsx/frequency-control#README",
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+    },
+    "devDependencies": {
+        "prettier": "^3.6.2",
+        "turbo": "^2.6.1",
+        "typescript": "5.9.2"
+    },
+    "packageManager": "pnpm@10.28.0",
+    "engines": {
+        "node": ">=18"
+    }
+}
