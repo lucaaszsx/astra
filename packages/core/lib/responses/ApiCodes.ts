@@ -81,20 +81,6 @@ export enum ApiErrorCodes {
     HASHING_ERROR = 2500,
 
     // ────────────────────────────────
-    // Group & Messaging Errors (2600–2699)
-    // ────────────────────────────────
-    GROUP_NOT_FOUND = 2600,
-    GROUP_ALREADY_EXISTS = 2601,
-    NOT_GROUP_OWNER = 2602,
-    CANNOT_LEAVE_AS_GROUP_OWNER = 2603,
-    ALREADY_GROUP_MEMBER = 2604,
-    NOT_GROUP_MEMBER = 2605,
-    CANNOT_REMOVE_OWNER = 2606,
-    MESSAGE_NOT_FOUND = 2607,
-    NOT_MESSAGE_AUTHOR = 2608,
-    REPLY_MESSAGE_NOT_FOUND = 2609,
-
-    // ────────────────────────────────
     // User Management Errors (2700–2799)
     // ────────────────────────────────
     USER_ALREADY_EXISTS = 2700,

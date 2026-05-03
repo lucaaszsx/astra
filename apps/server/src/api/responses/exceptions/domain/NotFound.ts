@@ -6,7 +6,7 @@
  * @license Apache-2.0
  */
 
-import { ApiErrorCodes } from '@vsa/core';
+import { ApiErrorCodes } from '@astra/core';
 import { BaseException } from '../Base';
 
 export class NotFoundException extends BaseException {

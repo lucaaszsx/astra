@@ -6,8 +6,8 @@
  */
 
 import { VerificationCodeEntity, RefreshTokenEntity, SessionEntity, UserEntity } from '@/database/entities';
-import { CodeAlreadyUsedException, CodeExpiredException, InvalidCodeException } from '../responses';
-import { codeRepository } from '@/database/repositories';
+import { CodeAlreadyUsedException, CodeExpiredException, InvalidCodeException, EmailAlreadyExistsException } from '../responses';
+import { userRepository } from '@/database/repositories';
 import { appDataSource } from '@/database/AppDataSource';
 import { TokenService, TokenPair } from '@/lib/auth';
 import type { LoggerInterface } from '@/lib/logger';
@@ -77,18 +77,47 @@ export class AuthService {
         this.logger.info('User verified successfully');
     }
 
+    public async register(options: {
+        name: string;
+        email: string;
+        password: string;
+    }): Promise<void> {
+        this.logger.info('Starting user registration');
+
+        if (await userRepository.exists({ where: { email: options.email } }))
+            throw new EmailAlreadyExistsException();
+
+        const { user, code } = await appDataSource.transaction(async (manager) => {
+            const createdUser = manager.create(UserEntity, options);
+            await manager.save(UserEntity, createdUser);
+
+            const createdCode = await this.createVerificationCode(
+                createdUser.id,
+                VerificationContext.EMAIL_CONFIRMATION,
+                manager
+            );
+
+            return { user: createdUser, code: createdCode };
+        });
+
+        this.logger.info('User and verification code created, dispatching email');
+
+        await this.dispatchVerificationCode(user, code);
+    }
+
     public async createVerificationCode(
         userId: string,
-        context: VerificationContext
+        context: VerificationContext,
+        manager = appDataSource.manager
     ): Promise<VerificationCodeEntity> {
-        const code = codeRepository.create({
+        const code = manager.create(VerificationCodeEntity, {
             userId,
             context,
             code: randomInt(100000, 999999).toString(),
             expiresAt: new Date(Date.now() + ms(Env.Auth.codeExpiresIn as ms.StringValue))
         });
 
-        return codeRepository.save(code);
+        return manager.save(VerificationCodeEntity, code);
     }
 
     public async createSession(

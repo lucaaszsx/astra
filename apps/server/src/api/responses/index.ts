@@ -54,3 +54,4 @@ export { TooManyRequestsException } from './exceptions/preventions/TooManyReques
 
 /** API Response handler */
 export { type CreateApiResponseOptions, createApiResponse } from './utils/createApiResponse';
+export { sendApiResponse } from './utils/sendApiResponse';

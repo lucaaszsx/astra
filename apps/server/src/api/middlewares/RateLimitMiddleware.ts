@@ -1,8 +1,9 @@
 /**
- * @fileoverview Middleware responsible for applying rate limiting to incoming requests.
+ * @file RateLimitMiddleware.ts
+ * @description Middleware responsible for applying rate limiting to incoming requests.
  * Integrates configuration from environment variables and uses express-rate-limit.
  * @author Lucas
- * @license Apache-2.0
+ * @license MIT
  */
 
 import { ExpressMiddlewareInterface, Middleware } from 'routing-controllers';
@@ -12,23 +13,18 @@ import { Env } from '@/config/env';
 import { Service } from 'typedi';
 import rateLimit from 'express-rate-limit';
 
-const { middlewares } = Env.Server;
-
 @Middleware({ type: 'before' })
 @Service()
 export default class RateLimitMiddleware implements ExpressMiddlewareInterface {
-    private limiter = rateLimit({
-        windowMs: middlewares.rateLimit.windowMs,
-        max: middlewares.rateLimit.max,
-        standardHeaders: middlewares.rateLimit.standardHeaders,
-        legacyHeaders: middlewares.rateLimit.legacyHeaders,
-
-        handler: () => {
-            throw new TooManyRequestsException();
-        }
+    private static readonly limiter = rateLimit({
+        windowMs: Env.Server.middlewares.rateLimit.windowMs,
+        max: Env.Server.middlewares.rateLimit.max,
+        standardHeaders: Env.Server.middlewares.rateLimit.standardHeaders,
+        legacyHeaders: Env.Server.middlewares.rateLimit.legacyHeaders,
+        handler: (_req, _res, next) => next(new TooManyRequestsException()),
     });
 
     use(req: Request, res: Response, next: NextFunction): void {
-        this.limiter(req, res, next);
+        RateLimitMiddleware.limiter(req, res, next);
     }
 }

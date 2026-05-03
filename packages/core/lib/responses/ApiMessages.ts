@@ -62,21 +62,6 @@ export const ApiErrorMessages: Record<ApiErrorCodes, string> = {
     [ApiErrorCodes.HASHING_ERROR]: 'A cryptographic error occurred during request processing',
 
     // ────────────────────────────────
-    // Group & Messaging Errors
-    // ────────────────────────────────
-    [ApiErrorCodes.GROUP_NOT_FOUND]: 'Requested group could not be found',
-    [ApiErrorCodes.GROUP_ALREADY_EXISTS]: 'A group with this identifier already exists',
-    [ApiErrorCodes.NOT_GROUP_OWNER]: 'You are not the owner of this group',
-    [ApiErrorCodes.CANNOT_LEAVE_AS_GROUP_OWNER]:
-        'Group owner cannot leave without transferring ownership',
-    [ApiErrorCodes.ALREADY_GROUP_MEMBER]: 'You are already a member of this group',
-    [ApiErrorCodes.NOT_GROUP_MEMBER]: 'You are not a member of this group',
-    [ApiErrorCodes.CANNOT_REMOVE_OWNER]: 'The group owner cannot be removed from the group',
-    [ApiErrorCodes.MESSAGE_NOT_FOUND]: 'Requested message could not be found',
-    [ApiErrorCodes.NOT_MESSAGE_AUTHOR]: 'You are not the author of this message',
-    [ApiErrorCodes.REPLY_MESSAGE_NOT_FOUND]: 'Message being replied to could not be found',
-
-    // ────────────────────────────────
     // User Management Errors
     // ────────────────────────────────
     [ApiErrorCodes.USER_ALREADY_EXISTS]: 'A user with this identifier already exists',

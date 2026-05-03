@@ -22,7 +22,7 @@ export type ApiResponse<T = Record<string, unknown>> =
           readonly statusCode: number;
           readonly apiCode: ApiErrorCodes;
           readonly data: null;
-          readonly error: { readonly message: string };
+          readonly error: { readonly message: string; readonly details: string[] };
           readonly path: string;
           readonly timestamp: string;
       };

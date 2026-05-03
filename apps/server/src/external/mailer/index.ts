@@ -74,13 +74,15 @@ export class MailerService {
 
         this.transporter = nodemailer.createTransport(
             {
-                service: Env.Smtp.service,
+                host: Env.Smtp.host,
+                port: Env.Smtp.port,
+                secure: Env.Smtp.secure,
                 auth: {
                     user: Env.Smtp.user,
                     pass: Env.Smtp.pass
                 }
             },
-            { from: `"${Env.Smtp.name}" <${Env.Smtp.user}>` }
+            { from: `"${Env.Smtp.name}" <${Env.Smtp.from}>` }
         );
 
         return this.transporter;

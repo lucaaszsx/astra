@@ -1,5 +1,5 @@
 /**
- * @file CorsMiddleware.ts
+ * @file CORSMiddleware.ts
  * @description Enables Cross-Origin Resource Sharing (CORS) for incoming HTTP requests.
  * Configures response headers to allow specific origins, methods, and headers.
  *
@@ -18,26 +18,20 @@ const { middlewares } = Env.Server;
 @Middleware({ type: 'before' })
 @Service()
 export default class CorsMiddleware {
-    private handler: (req: Request, res: Response, next: NextFunction) => void;
+    private static readonly handler = cors({
+        origin: (origin, callback) => {
+            const allowedOrigins = Env.Server.middlewares.cors.origins;
 
-    constructor() {
-        const options: CorsOptions = {
-            origin: (origin, callback) => {
-                const allowedOrigins = middlewares.cors.origins;
-
-                if (!origin || allowedOrigins.includes(origin)) callback(null, true);
-                else callback(null, false);
-            },
-
-            methods: middlewares.cors.methods,
-            allowedHeaders: middlewares.cors.headers,
-            credentials: middlewares.cors.credentials
-        };
-
-        this.handler = cors(options);
-    }
+            if (!origin || allowedOrigins.includes(origin)) callback(null, true);
+            else callback(null, false);
+        },
+        
+        methods: Env.Server.middlewares.cors.methods,
+        allowedHeaders: Env.Server.middlewares.cors.headers,
+        credentials: Env.Server.middlewares.cors.credentials,
+    } satisfies CorsOptions);
 
     use(req: Request, res: Response, next: NextFunction): void {
-        this.handler(req, res, next);
+        CorsMiddleware.handler(req, res, next);
     }
 }

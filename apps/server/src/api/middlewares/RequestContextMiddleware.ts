@@ -9,15 +9,16 @@
 import { Middleware, ExpressMiddlewareInterface } from 'routing-controllers';
 import { type RequestContext, loggerContext } from '@/lib/logger';
 import { Request, Response, NextFunction } from 'express';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 import { Service } from 'typedi';
 
-@Middleware({ type: 'before' })
+@Middleware({ type: 'before', priority: 10 })
 @Service()
 export default class RequestContextMiddleware implements ExpressMiddlewareInterface {
     use(req: Request, res: Response, next: NextFunction): void {
+        const incomingId = req.headers['x-request-id'];
         const context: RequestContext = {
-            requestId: (req.headers['x-request-id'] as string) || uuidv4(),
+            requestId: (Array.isArray(incomingId) ? incomingId[0] : incomingId) || randomUUID(),
             identifier: 'anonymous',
             method: req.method,
             path: req.path

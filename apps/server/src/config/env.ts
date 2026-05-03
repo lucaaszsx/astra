@@ -83,7 +83,7 @@ const Pg = {
     username: getEnvVariable('DATABASE_USERNAME'),
     password: getEnvVariable('DATABASE_PASSWORD'),
     database: getEnvVariable('DATABASE_NAME'),
-    synchronize: getEnvVariable('DATABASE_SYNCHRONIZE'),
+    synchronize: getEnvVariable('DATABASE_SYNCHRONIZE', EnvType.Bool),
     logging: getEnvVariable('DATABASE_LOGGING', EnvType.Bool),
 
     get url(): string {
@@ -92,10 +92,13 @@ const Pg = {
 };
 
 const Smtp = {
-    service: getEnvVariable('SMTP_SERVICE'),
+    host: getEnvVariable('SMTP_HOST'),
+    port: getEnvVariable('SMTP_PORT', EnvType.Int),
+    secure: getEnvVariable('SMTP_SECURE', EnvType.Bool),
     name: getEnvVariable('SMTP_NAME'),
     user: getEnvVariable('SMTP_USER'),
-    pass: getEnvVariable('SMTP_PASS')
+    pass: getEnvVariable('SMTP_PASS'),
+    from: getEnvVariable('SMTP_FROM')
 };
 
 const Jwt = {

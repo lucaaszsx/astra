@@ -11,26 +11,18 @@ import { Env } from '@/config/env';
 import { Service } from 'typedi';
 import morgan from 'morgan';
 
-@Middleware({ type: 'before' })
+@Middleware({ type: 'before', priority: 9 })
 @Service()
 export default class LoggerMiddleware implements ExpressMiddlewareInterface {
-    private logger = new Logger(__filename);
-    private readonly morganMiddleware;
+    private readonly logger = new Logger(__filename);
 
-    constructor() {
-        const format =
-            Env.node === 'prod'
-                ? ':method :url :status :response-time ms - :res[content-length]'
-                : 'dev';
-
-        this.morganMiddleware = morgan(format, {
-            stream: {
-                write: (message: string) => {
-                    this.logger.http(message.trim());
-                }
-            }
-        });
-    }
+    private readonly format = Env.node === 'prod'
+        ? ':method :url :status :response-time ms - :res[content-length]'
+        : 'dev';
+        
+    private readonly morganMiddleware = morgan(this.format, {
+        stream: { write: (message) => this.logger.http(message.trim()) }
+    });
 
     use(req: Request, res: Response, next: NextFunction): void {
         this.morganMiddleware(req, res, next);
