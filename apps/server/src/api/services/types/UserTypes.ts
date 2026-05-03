@@ -5,9 +5,6 @@
  * @license MIT
  */
 
-import type { FindOneOptions as TypeORMFindOneOptions } from 'typeorm';
-import type { UserEntity } from '@/database/entities/user/UserEntity';
-
 export interface CreateUserOptions {
     name: string;
     email: string;
@@ -17,13 +14,6 @@ export interface CreateUserOptions {
 export interface FindUsersOptions {
     page?: number;
     limit?: number;
-}
-
-export interface FindOneUserOptions extends TypeORMFindOneOptions<UserEntity> {}
-
-export interface UserExistsOptions {
-    id?: string;
-    email?: string;
 }
 
 export interface UpdateUserOptions {

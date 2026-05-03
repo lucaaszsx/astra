@@ -2,7 +2,6 @@
  * @file email-verification.ts
  * @description Transactional email template for e-mail address verification.
  * Sent after registration to confirm the user's e-mail address.
- *
  * @author Lucas
  * @license MIT
  */
@@ -17,16 +16,17 @@ import {
     urlFallback,
     codeBlock
 } from './_base';
+import ms from 'ms';
 
 export interface EmailVerificationTemplateOptions {
     /** User's display name */
     userName: string;
     /** Verification link (full URL) */
     verificationUrl: string;
-    /** Optional 6-digit OTP code as alternative to the link */
+    /** Optional OTP code as alternative to the link */
     otp?: string;
-    /** Token expiry in human-readable format, e.g. "24 horas" */
-    expiresIn?: string;
+    /** Token expiry in milisseconds */
+    expiresIn: number;
 }
 
 export const EMAIL_VERIFICATION_SUBJECT = 'Confirme seu e-mail — Astra';
@@ -38,7 +38,7 @@ export function emailVerificationTemplate({
     userName,
     verificationUrl,
     otp,
-    expiresIn = '24 horas'
+    expiresIn
 }: EmailVerificationTemplateOptions): string {
     const content = [
         heading('Confirme seu e-mail', '✉️'),
@@ -62,8 +62,8 @@ export function emailVerificationTemplate({
         divider(),
 
         noticeBox(
-            `Este link é válido por <strong>${expiresIn}</strong>. ` +
-                'Após expirar, você poderá solicitar um novo link no aplicativo.'
+            `Este link é válido por <strong>${ms(expiresIn)}</strong>. ` +
+                'Após expirar, você ainda poderá solicitar um novo link.'
         ),
 
         paragraph(

@@ -1,203 +1,124 @@
-import {
-    CodeAlreadyUsedException,
-    UserNotFoundException,
-    CodeExpiredException,
-    InvalidCodeException
-} from '../responses';
+/**
+ * @file AuthService.ts
+ * @description Service responsible for all auth domain operations.
+ * @author Lucas
+ * @license MIT
+ */
+
+import { VerificationCodeEntity, RefreshTokenEntity, SessionEntity, UserEntity } from '@/database/entities';
+import { CodeAlreadyUsedException, CodeExpiredException, InvalidCodeException } from '../responses';
+import { codeRepository } from '@/database/repositories';
+import { appDataSource } from '@/database/AppDataSource';
+import { TokenService, TokenPair } from '@/lib/auth';
 import type { LoggerInterface } from '@/lib/logger';
+import { VerificationContext } from '@astra/core';
 import { MailerService } from '@/external/mailer';
 import { LoggerDecorator } from '@/decorators';
-import { UserService } from './UserService';
+import { randomInt } from 'node:crypto';
+import { Env } from '@/config/env';
 import { Service } from 'typedi';
+import ms, { StringValue } from 'ms';
 
 @Service()
 export class AuthService {
     constructor(
         @LoggerDecorator(__filename)
         private readonly logger: LoggerInterface,
-        private readonly userService: UserService,
         private readonly mailerService: MailerService
     ) {}
 
     public async dispatchVerificationCode(
-        user: IUser,
-        verification: IUserVerification
-    ): Promise<any> {
-        const expiration = Math.ceil(
-            (verification.expiresAt.getTime() - verification.createdAt.getTime()) / (1000 * 60)
-        );
+        user: UserEntity,
+        code: VerificationCodeEntity
+    ): Promise<void> {
+        this.logger.info('Dispatching verification code');
 
-        this.logger.info(`Dispatching verification code to user ${user.id}`);
+        await this.mailerService.dispatchVerificationCode({
+            to: user.email,
+            userName: user.name,
+            verificationUrl: Env.Server.url, // TODO: set the correct url here
+            otp: code.code,
+            expiresIn: code.expiresAt.getTime() - code.createdAt.getTime()
+        });
 
-        try {
-            return await this.mailerService.dispatchVerificationCode({
-                to: user.email!,
-                displayName: user.displayName,
-                code: verification.code,
-                expiration: expiration.toString()
-            });
-        } catch (error) {
-            this.logger.error(
-                `Failed to dispatch verification code to user ${user.id}: ${(error as Error).message}`
-            );
-
-            throw error;
-        }
+        this.logger.info('Verification code dispatched successfully');
     }
 
-    public async verifyEmail(user: IUser, code: string): Promise<void> {
-        const identifier = `${user.username} (${user.email})`;
-        
-        this.logger.info(`Starting email verification attempt for user => ${identifier}`);
+    public async verifyEmail(user: UserEntity, code: VerificationCodeEntity): Promise<void> {
+        this.logger.info('Starting email verification attempt');
 
         if (user.isVerified) {
-            this.logger.info(`User '${identifier}' is already verified`);
-            
+            this.logger.info('User is already verified');
             return;
         }
 
-        const verification = user.verifications?.find(
-            (v) => v && v.code === code && v.context === VerificationContext.EMAIL_CONFIRMATION
-        );
-
-        if (!verification || !verification.code) {
-            this.logger.warn(`Verification code provided for user '${identifier}' is invalid`);
-
+        if (code.context !== VerificationContext.EMAIL_CONFIRMATION)
             throw new InvalidCodeException();
-        }
-        if (new Date() > verification.expiresAt) {
-            this.logger.warn(`Verification code provided for user '${identifier}' has expired`);
 
+        if (Date.now() > code.expiresAt.getTime()) {
+            this.logger.info('Verification code has expired');
             throw new CodeExpiredException();
         }
-        if (verification.used) {
-            this.logger.warn(
-                `Verification code provided for user '${identifier}' has already been used previously`
-            );
 
+        if (code.used) {
+            this.logger.warn('Verification code has already been used');
             throw new CodeAlreadyUsedException();
         }
 
-        await this.userService.update(
-            {
-                'id': user.id,
-                'verifications.code': code
-            },
-            {
-                $set: {
-                    'verifications.$.used': true,
-                    'isVerified': true
-                }
-            }
-        );
+        await appDataSource.transaction(async (manager) => {
+            code.used = true;
+            code.usedAt = new Date();
+            await manager.save(VerificationCodeEntity, code);
 
-        this.logger.info(`User '${identifier}' has been successfully verified`);
+            user.isVerified = true;
+            await manager.save(UserEntity, user);
+        });
+
+        this.logger.info('User verified successfully');
     }
 
-    public async resetPassword(token: string, newPassword: string): Promise<boolean> {
-        this.logger.info(`Attempting password reset with token`);
-
-        const user = await this.userService.findOne(
-            {
-                'passwordReset.token': token,
-                'passwordReset.expiresAt': { $gt: new Date() }
-            },
-            undefined,
-            { passwordReset: 1 }
-        );
-
-        if (!user || !user.passwordReset) {
-            this.logger.warn(`Invalid or expired password reset token`);
-
-            throw new InvalidCodeException();
-        }
-
-        try {
-            await this.userService.update(
-                { id: user.id },
-                {
-                    password: newPassword,
-                    $unset: { passwordReset: 1 }
-                }
-            );
-
-            this.logger.info(`Password reset successfully for user ${user.id}`);
-
-            return true;
-        } catch (error) {
-            this.logger.error(`Error resetting password: ${(error as Error).message}`);
-
-            throw error;
-        }
-    }
-
-    public async setPasswordResetToken(
-        email: string,
-        resetToken: ITokenWithExpiry
-    ): Promise<IUser> {
-        this.logger.info(`Setting password reset token for email => ${email}`);
-
-        const user = await this.userService.findByEmail(email);
-
-        if (!user) {
-            this.logger.warn(`User with email '${email}' not found!`);
-            
-            throw new UserNotFoundException();
-        }
-
-        const updatedUser = await this.userService.update(
-            { id: user.id },
-            { passwordReset: resetToken }
-        );
-
-        this.logger.info(`Password reset token set for user ${user.id}`);
-
-        return updatedUser;
-    }
-
-    public async addVerificationCode(
+    public async createVerificationCode(
         userId: string,
-        verification: IUserVerification
-    ): Promise<IUser> {
-        this.logger.info(`Adding verification code for user => ${userId}`);
+        context: VerificationContext
+    ): Promise<VerificationCodeEntity> {
+        const code = codeRepository.create({
+            userId,
+            context,
+            code: randomInt(100000, 999999).toString(),
+            expiresAt: new Date(Date.now() + ms(Env.Auth.codeExpiresIn as ms.StringValue))
+        });
 
-        const user = await this.userService.findById(userId);
-
-        if (!user) {
-            this.logger.warn(`User with identifier '${userId}' not found!`);
-
-            throw new UserNotFoundException();
-        }
-
-        const updatedUser = await this.userService.update(
-            { id: userId },
-            { $push: { verifications: verification } }
-        );
-
-        this.logger.info(`Verification code added for user ${userId}`);
-
-        return updatedUser;
+        return codeRepository.save(code);
     }
 
-    public async revokeAllSessions(userId: string): Promise<void> {
-        this.logger.info(`Revoking all sessions for user => ${userId}`);
+    public async createSession(
+        userId: string,
+        ipAddress: string | null,
+        userAgent: string | null
+    ): Promise<TokenPair> {
+        return appDataSource.transaction(async (manager) => {
+            const session = manager.create(SessionEntity, {
+                userId,
+                ipAddress,
+                userAgent
+            });
 
-        try {
-            await this.userService.update(
-                { id: userId },
-                {
-                    $set: {
-                        'sessions.$[].isRevoked': true,
-                        'sessions.$[].revokedAt': new Date()
-                    }
-                }
-            );
+            await manager.save(SessionEntity, session);
 
-            this.logger.info(`All sessions revoked for user ${userId}`);
-        } catch (error) {
-            this.logger.error(`Error revoking sessions for user ${userId}: ${(error as Error).message}`);
+            const { accessToken, refreshToken, refreshTokenHashed } = TokenService.issueTokenPair({
+                sub: userId,
+                sessionId: session.id
+            });
 
-            throw error;
-        }
+            const refreshTokenEntity = manager.create(RefreshTokenEntity, {
+                sessionId: session.id,
+                token: refreshTokenHashed,
+                expiresAt: new Date(Date.now() + TokenService.getRefreshTokenTtlMs())
+            });
+
+            await manager.save(RefreshTokenEntity, refreshTokenEntity);
+
+            return { accessToken, refreshToken };
+        });
     }
 }

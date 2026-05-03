@@ -17,7 +17,7 @@ import {
 const Server = {
     port: getEnvVariable('SERVER_PORT'),
     baseUrl: getEnvVariable('SERVER_BASE_URL'),
-    routePrefix: getEnvVariable('SERVER_ROUTE_PREFIX'),
+    routePrefix: getEnvOptional('SERVER_ROUTE_PREFIX'),
     middlewares: {
         cors: {
             origins: parseEnvArray('SERVER_CORS_ORIGINS'),
@@ -38,6 +38,15 @@ const Server = {
         urlencoded: {
             limit: getEnvVariable('SERVER_URLENCODED_LIMIT')
         }
+    },
+
+    get url(): string {
+        const { baseUrl, routePrefix } = this;
+        let url = `${baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl}`;
+
+        if (routePrefix) url += `/${routePrefix.startsWith('/') ? routePrefix.slice(1) : routePrefix}`;
+
+        return url;
     }
 };
 
@@ -96,6 +105,10 @@ const Jwt = {
     refreshExpiresIn: getEnvVariable('JWT_REFRESH_EXPIRES_IN')
 };
 
+const Auth = {
+    codeExpiresIn: getEnvVariable('AUTH_CODE_EXPIRES_IN')
+};
+
 export const Env = {
     node: getEnvVariable('NODE_ENV'),
 
@@ -104,5 +117,6 @@ export const Env = {
     R2,
     Pg,
     Smtp,
-    Jwt
+    Jwt,
+    Auth
 };
