@@ -15,7 +15,9 @@ import { Service } from 'typedi';
 @Middleware({ type: 'after' })
 @Service()
 export default class NotFoundMiddleware implements ExpressMiddlewareInterface {
-    use(_req: Request, _res: Response, next: NextFunction): void {
+    use(_req: Request, res: Response, next: NextFunction): void {
+        if (res.headersSent) return next();
+
         next(new NotFoundException());
     }
 }

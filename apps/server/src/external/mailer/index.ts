@@ -19,7 +19,6 @@ import {
     passwordResetTemplate
 } from './templates';
 import nodemailer, {
-    type SentMessageInfo,
     type SendMailOptions,
     type Transporter
 } from 'nodemailer';
@@ -94,17 +93,15 @@ export class MailerService {
      *
      * @throws {EmailCannotBeSentException} If the SMTP transport fails.
      */
-    private async dispatchEmail(options: Omit<SendMailOptions, 'from'>): Promise<SentMessageInfo> {
+    private async dispatchEmail(options: Omit<SendMailOptions, 'from'>): Promise<void> {
         this.logger.info(`Attempting to send email to => ${options.to}`);
 
         try {
-            const info = await this.getTransporter().sendMail(options);
+            await this.getTransporter().sendMail(options);
 
-            this.logger.info(`Email sent to => ${options.to}`, { messageId: info.messageId });
-
-            return info;
+            this.logger.info(`Email sent successfully to => ${options.to}`);
         } catch (error) {
-            this.logger.error(`Failed to send email to '${options.to ?? 'unknown'}':`, { error });
+            this.logger.error(`Failed to send email to '${options.to ?? 'unknown'}':`, { error: (error as Error)?.message ?? String(error) });
 
             throw new EmailCannotBeSentException();
         }
@@ -120,7 +117,7 @@ export class MailerService {
         verificationUrl,
         otp,
         expiresIn
-    }: DispatchVerificationCodeOptions): Promise<SentMessageInfo> {
+    }: DispatchVerificationCodeOptions): Promise<void> {
         return this.dispatchEmail({
             to,
             subject: EMAIL_VERIFICATION_SUBJECT,
@@ -138,7 +135,7 @@ export class MailerService {
         resetUrl,
         expiresIn,
         requestIp
-    }: DispatchPasswordResetOptions): Promise<SentMessageInfo> {
+    }: DispatchPasswordResetOptions): Promise<void> {
         return this.dispatchEmail({
             to,
             subject: PASSWORD_RESET_SUBJECT,
@@ -156,7 +153,7 @@ export class MailerService {
         changedAt,
         changedFromIp,
         supportUrl
-    }: NotifyPasswordChangedOptions): Promise<SentMessageInfo> {
+    }: NotifyPasswordChangedOptions): Promise<void> {
         return this.dispatchEmail({
             to,
             subject: PASSWORD_CHANGED_SUBJECT,
