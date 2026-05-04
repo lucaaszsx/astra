@@ -47,8 +47,13 @@ export const ServerLoader: MicroframeworkLoader = async (
         routePrefix: Env.Server.routePrefix,
         defaultErrorHandler: false,
         classTransformer: true,
-        validation: true,
         cors: false,
+
+        validation: {
+            skipMissingProperties: false,
+            whitelist: true,
+            forbidNonWhitelisted: false
+        },
 
         controllers: Env.App.dirs.controllers,
         middlewares: Env.App.dirs.middlewares,

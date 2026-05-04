@@ -5,6 +5,7 @@ import {
     ArrayMinSize,
     IsOptional,
     IsNotEmpty,
+    IsDefined,
     MinLength,
     MaxLength,
     IsString,
@@ -17,6 +18,7 @@ import {
     Max
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { UserRules } from '@astra/core';
 
 // String field: required
 export function IsRequiredString(
@@ -26,6 +28,7 @@ export function IsRequiredString(
     options?: ValidationOptions
 ) {
     return function (target: any, propertyKey: string) {
+        IsDefined({ message: `${propertyKey} is required`, ...options })(target, propertyKey);
         IsString(options)(target, propertyKey);
         IsNotEmpty({ message: `${propertyKey} is required`, ...options })(target, propertyKey);
 
@@ -254,6 +257,7 @@ export function IsOptionalStringArray(
 // Email: required
 export function IsRequiredEmail(options?: ValidationOptions) {
     return function (target: any, propertyKey: string) {
+        IsDefined({ message: `${propertyKey} is required`, ...options })(target, propertyKey);
         IsEmail(
             {},
             {
@@ -276,6 +280,38 @@ export function IsOptionalEmail(options?: ValidationOptions) {
                 ...options
             }
         )(target, propertyKey);
+    };
+}
+
+// Password field
+export function IsStrongPassword(options?: ValidationOptions) {
+    return function (target: any, propertyKey: string) {
+        IsDefined({ message: `${propertyKey} is required`, ...options })(target, propertyKey);
+        IsString(options)(target, propertyKey);
+        MinLength(UserRules.PASSWORD.MIN_LENGTH, {
+            message: `${propertyKey} must be at least ${UserRules.PASSWORD.MIN_LENGTH} characters long`,
+            ...options
+        })(target, propertyKey);
+        MaxLength(UserRules.PASSWORD.MAX_LENGTH, {
+            message: `${propertyKey} must not exceed ${UserRules.PASSWORD.MAX_LENGTH} characters`,
+            ...options
+        })(target, propertyKey);
+        Matches(UserRules.PASSWORD.REGEX.LOWER, {
+            message: `${propertyKey} must contain at least one lowercase character`,
+            ...options
+        })(target, propertyKey);
+        Matches(UserRules.PASSWORD.REGEX.UPPER, {
+            message: `${propertyKey} must contain at least one uppercase character`,
+            ...options
+        })(target, propertyKey);
+        Matches(UserRules.PASSWORD.REGEX.NUMBER, {
+            message: `${propertyKey} must contain at least one number`,
+            ...options
+        })(target, propertyKey);
+        Matches(UserRules.PASSWORD.REGEX.SPECIAL, {
+            message: `${propertyKey} must contain at least one special character`,
+            ...options
+        })(target, propertyKey);
     };
 }
 

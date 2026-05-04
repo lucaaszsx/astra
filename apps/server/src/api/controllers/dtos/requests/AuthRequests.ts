@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-import { IsRequiredEmail, IsRequiredString } from '@/decorators';
+import { IsRequiredEmail, IsRequiredString, IsStrongPassword } from '@/decorators';
 import { UserRules } from '@astra/core';
 
 export class RegisterRequest {
@@ -15,11 +15,7 @@ export class RegisterRequest {
     @IsRequiredEmail()
     public email: string;
 
-    @IsRequiredString(
-        UserRules.PASSWORD.MIN_LENGTH,
-        UserRules.PASSWORD.MAX_LENGTH,
-        UserRules.PASSWORD.REGEX.FULL
-    )
+    @IsStrongPassword()
     public password: string;
 }
 
@@ -27,11 +23,7 @@ export class LoginRequest {
     @IsRequiredEmail()
     public email: string;
 
-    @IsRequiredString(
-        UserRules.PASSWORD.MIN_LENGTH,
-        UserRules.PASSWORD.MAX_LENGTH,
-        UserRules.PASSWORD.REGEX.FULL
-    )
+    @IsStrongPassword()
     public password: string;
 }
 
