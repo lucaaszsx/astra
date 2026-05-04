@@ -49,8 +49,10 @@ export const ServerLoader: MicroframeworkLoader = async (
         classTransformer: true,
         validation: true,
         cors: false,
+
         controllers: Env.App.dirs.controllers,
-        middlewares: Env.App.dirs.middlewares
+        middlewares: Env.App.dirs.middlewares,
+        interceptors: Env.App.dirs.interceptors
     });
 
     const { port } = Env.Server;

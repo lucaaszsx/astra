@@ -21,11 +21,4 @@ export class UserController extends BaseController {
     constructor(private readonly userService: UserService) {
         super();
     }
-
-    @Get('/me')
-    public async me(@Req() req: Request): Promise<ApiResponse<PrivateUserModel>> {
-        const user = await this.userService.findById(req.user!.id);
-
-        return this.ok<PrivateUserModel>(req, new PrivateUserModel(user));
-    }
 }

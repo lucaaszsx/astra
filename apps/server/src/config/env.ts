@@ -60,6 +60,7 @@ const App = {
     dirs: {
         controllers: parseEnvArray('APP_DIRS_CONTROLLERS', parsePath),
         middlewares: parseEnvArray('APP_DIRS_MIDDLEWARES', parsePath),
+        interceptors: parseEnvArray('APP_DIRS_INTERCEPTORS', parsePath),
         entities: parseEnvArray('APP_DIRS_ENTITIES', parsePath),
         migrations: parseEnvArray('APP_DIRS_MIGRATIONS', parsePath),
         subscribers: parseEnvArray('APP_DIRS_SUBSCRIBERS', parsePath)
