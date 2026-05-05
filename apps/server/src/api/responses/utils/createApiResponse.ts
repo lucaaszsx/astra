@@ -14,7 +14,6 @@ import {
 } from '@astra/core';
 import { InternalErrorException } from '../exceptions/infra/InternalError';
 import { getReasonPhrase } from 'http-status-codes';
-import type { Request, Response } from 'express';
 
 /**
  * Defines the input structure for creating a standardized API response.
@@ -75,11 +74,10 @@ export const createApiResponse = <T = any>({
             timestamp
         } as ApiResponse<T>;
     } else {
-        const message = isSuccess
-            ? getReasonPhrase(statusCode) || 'Unknown message'
-            : ApiErrorMessages[apiCode as ApiErrorCodes] ||
-              getReasonPhrase(statusCode) ||
-              'Unknown message';
+        const message =
+            ApiErrorMessages[apiCode as ApiErrorCodes] ||
+            getReasonPhrase(statusCode) ||
+            'Unknown message';
 
         return {
             success: false,
