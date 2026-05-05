@@ -5,10 +5,13 @@
  * @license MIT
  */
 
+import {
+    AuthenticationFailedException,
+    EmailAlreadyExistsException,
+    EmailNotVerifiedException
+} from '../responses';
 import { RefreshTokenEntity, SessionEntity, UserEntity } from '@/database/entities';
 import { VerificationService } from './VerificationService';
-import { AuthenticationFailedException, EmailAlreadyExistsException, EmailNotVerifiedException } from '../responses';
-import { userRepository } from '@/database/repositories';
 import { appDataSource } from '@/database/AppDataSource';
 import { TokenService, TokenPair } from '@/lib/auth';
 import type { LoggerInterface } from '@/lib/logger';
@@ -54,25 +57,29 @@ export class AuthService {
     }): Promise<void> {
         this.logger.info('Starting user registration');
 
-        if (await userRepository.exists({ where: { email: options.email } }))
-            throw new EmailAlreadyExistsException();
+        try {
+            const { user, code } = await appDataSource.transaction(async (manager) => {
+                const createdUser = manager.create(UserEntity, options);
+                await manager.save(UserEntity, createdUser);
 
-        const { user, code } = await appDataSource.transaction(async (manager) => {
-            const createdUser = manager.create(UserEntity, options);
-            await manager.save(UserEntity, createdUser);
+                const createdCode = await this.verificationService.createVerificationCode(
+                    createdUser.id,
+                    VerificationContext.EMAIL_CONFIRMATION,
+                    manager
+                );
 
-            const createdCode = await this.verificationService.createVerificationCode(
-                createdUser.id,
-                VerificationContext.EMAIL_CONFIRMATION,
-                manager
-            );
+                return { user: createdUser, code: createdCode };
+            });
 
-            return { user: createdUser, code: createdCode };
-        });
+            this.logger.info(`User and verification code created, dispatching email for ${user.email}`);
 
-        this.logger.info(`User and verification code created, dispatching email for ${user.email}`);
+            await this.verificationService.dispatchVerificationCode(user, code);
+        } catch (error: any) {
+            // PostgreSQL unique violation code
+            if (error?.code === '23505') throw new EmailAlreadyExistsException();
 
-        await this.verificationService.dispatchVerificationCode(user, code);
+            throw error;
+        }
     }
     
     public async createSession(
