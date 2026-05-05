@@ -6,7 +6,7 @@
  * @license MIT
  */
 
-import type { AccessTokenPayload, TokenPair } from '../types';
+import type { DecodedAccessToken, AccessTokenPayload, TokenPair } from '../types';
 import { createHash, randomUUID } from 'node:crypto';
 import { Env } from '@/config/env';
 import jwt from 'jsonwebtoken';
@@ -34,8 +34,24 @@ export class TokenService {
      * Verifies an access token and returns its decoded payload.
      * Throws a JsonWebTokenError or TokenExpiredError on failure.
      */
-    public static verifyAccessToken(token: string): AccessTokenPayload {
-        return jwt.verify(token, Env.Jwt.accessSecret) as AccessTokenPayload;
+    public static verifyAccessToken(token: string): DecodedAccessToken {
+        return jwt.verify(token, Env.Jwt.accessSecret) as DecodedAccessToken;
+    }
+
+    /**
+     * Checks whether an access token payload contains all required fields with the expected types.
+     */
+    public static isValidAccessPayload(payload: unknown): payload is DecodedAccessToken {
+        if (typeof payload !== 'object' || payload === null) return false;
+
+        const p = payload as Record<string, unknown>;
+
+        return (
+            typeof p['sub'] === 'string' &&
+            typeof p['sessionId'] === 'string' &&
+            typeof p['iat'] === 'number' &&
+            typeof p['exp'] === 'number'
+        );
     }
 
     /**
