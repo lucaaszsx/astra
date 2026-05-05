@@ -7,6 +7,7 @@
  */
 
 import { MicroframeworkSettings, MicroframeworkLoader } from 'microframework-w3tec';
+import { authorizationChecker, currentUserChecker } from '@/api/auth';
 import { Application as ExpressApplication } from 'express';
 import { useExpressServer } from 'routing-controllers';
 import { Logger } from '@/lib/logger';
@@ -54,6 +55,9 @@ export const ServerLoader: MicroframeworkLoader = async (
             whitelist: true,
             forbidNonWhitelisted: false
         },
+
+        authorizationChecker,
+        currentUserChecker,
 
         controllers: Env.App.dirs.controllers,
         middlewares: Env.App.dirs.middlewares,
