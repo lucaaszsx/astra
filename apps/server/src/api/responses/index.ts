@@ -15,12 +15,13 @@ export { BaseException } from './exceptions/Base';
 // ────────────────────────────────
 export { AuthenticationFailedException } from './exceptions/auth/AuthenticationFailed';
 
-// export { RefreshTokenMissingException } from './exceptions/auth/tokens/RefreshTokenMissing';
 // export { InvalidRefreshTokenException } from './exceptions/auth/tokens/InvalidRefreshToken';
+// export { RefreshTokenMissingException } from './exceptions/auth/tokens/RefreshTokenMissing';
 // export { RefreshTokenExpiredException } from './exceptions/auth/tokens/RefreshTokenExpired';
-// export { AccessTokenMissingException } from './exceptions/auth/tokens/AccessTokenMissing';
-// export { InvalidAccessTokenException } from './exceptions/auth/tokens/InvalidAccessToken';
-// export { AccessTokenExpiredException } from './exceptions/auth/tokens/AccessTokenExpired';
+
+export { AccessTokenMissingException } from './exceptions/auth/tokens/AccessTokenMissing';
+export { InvalidAccessTokenException } from './exceptions/auth/tokens/InvalidAccessToken';
+export { AccessTokenExpiredException } from './exceptions/auth/tokens/AccessTokenExpired';
 
 export { InvalidCodeException } from './exceptions/auth/verification/InvalidCode';
 export { CodeAlreadyUsedException } from './exceptions/auth/verification/CodeAlreadyUsed';
