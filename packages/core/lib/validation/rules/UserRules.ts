@@ -25,8 +25,7 @@ export const UserRules = {
             LOWER: /[a-z]/,
             UPPER: /[A-Z]/,
             NUMBER: /\d/,
-            SPECIAL: /[^A-Za-z0-9]/,
-            FULL: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/
+            SPECIAL: /[^A-Za-z0-9]/
         }
     }
 } as const;

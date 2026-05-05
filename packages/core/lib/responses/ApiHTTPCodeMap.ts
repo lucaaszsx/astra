@@ -32,6 +32,12 @@ export const ApiHTTPCodeMap: Record<number, StatusCodes> = {
     // ────────────────────────────────
     // Authentication & Authorization
     // ────────────────────────────────
+    [ApiErrorCodes.AUTHENTICATION_FAILED]: StatusCodes.UNAUTHORIZED,
+    [ApiErrorCodes.FORBIDDEN]: StatusCodes.FORBIDDEN,
+    [ApiErrorCodes.INVALID_CODE]: StatusCodes.BAD_REQUEST,
+    [ApiErrorCodes.CODE_MISSING]: StatusCodes.BAD_REQUEST,
+    [ApiErrorCodes.CODE_EXPIRED]: StatusCodes.GONE,
+    [ApiErrorCodes.CODE_ALREADY_USED]: StatusCodes.CONFLICT,
     [ApiErrorCodes.REFRESH_TOKEN_MISSING]: StatusCodes.UNAUTHORIZED,
     [ApiErrorCodes.INVALID_REFRESH_TOKEN]: StatusCodes.UNAUTHORIZED,
     [ApiErrorCodes.REFRESH_TOKEN_EXPIRED]: StatusCodes.UNAUTHORIZED,
@@ -39,11 +45,6 @@ export const ApiHTTPCodeMap: Record<number, StatusCodes> = {
     [ApiErrorCodes.INVALID_ACCESS_TOKEN]: StatusCodes.UNAUTHORIZED,
     [ApiErrorCodes.ACCESS_TOKEN_EXPIRED]: StatusCodes.UNAUTHORIZED,
     [ApiErrorCodes.UNAUTHORIZED]: StatusCodes.UNAUTHORIZED,
-    [ApiErrorCodes.FORBIDDEN]: StatusCodes.FORBIDDEN,
-    [ApiErrorCodes.INVALID_CODE]: StatusCodes.UNPROCESSABLE_ENTITY,
-    [ApiErrorCodes.CODE_EXPIRED]: StatusCodes.UNAUTHORIZED,
-    [ApiErrorCodes.CODE_ALREADY_USED]: StatusCodes.UNAUTHORIZED,
-    [ApiErrorCodes.CODE_MISSING]: StatusCodes.UNAUTHORIZED,
 
     // ────────────────────────────────
     // Validation Errors
@@ -67,20 +68,6 @@ export const ApiHTTPCodeMap: Record<number, StatusCodes> = {
     // Cryptographic / Security Errors
     // ────────────────────────────────
     [ApiErrorCodes.HASHING_ERROR]: StatusCodes.INTERNAL_SERVER_ERROR,
-
-    // ────────────────────────────────
-    // Group & Messaging Errors (TODO: DELETE THIS)
-    // ────────────────────────────────
-    [ApiErrorCodes.GROUP_NOT_FOUND]: StatusCodes.NOT_FOUND,
-    [ApiErrorCodes.GROUP_ALREADY_EXISTS]: StatusCodes.CONFLICT,
-    [ApiErrorCodes.NOT_GROUP_OWNER]: StatusCodes.FORBIDDEN,
-    [ApiErrorCodes.CANNOT_LEAVE_AS_GROUP_OWNER]: StatusCodes.FORBIDDEN,
-    [ApiErrorCodes.ALREADY_GROUP_MEMBER]: StatusCodes.CONFLICT,
-    [ApiErrorCodes.NOT_GROUP_MEMBER]: StatusCodes.FORBIDDEN,
-    [ApiErrorCodes.CANNOT_REMOVE_OWNER]: StatusCodes.FORBIDDEN,
-    [ApiErrorCodes.MESSAGE_NOT_FOUND]: StatusCodes.NOT_FOUND,
-    [ApiErrorCodes.NOT_MESSAGE_AUTHOR]: StatusCodes.FORBIDDEN,
-    [ApiErrorCodes.REPLY_MESSAGE_NOT_FOUND]: StatusCodes.NOT_FOUND,
 
     // ────────────────────────────────
     // User Management Errors

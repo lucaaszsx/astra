@@ -44,18 +44,19 @@ export enum ApiErrorCodes {
     // ────────────────────────────────
     // Authentication & Authorization (2100–2199)
     // ────────────────────────────────
-    REFRESH_TOKEN_MISSING = 2100,
-    INVALID_REFRESH_TOKEN = 2101,
-    REFRESH_TOKEN_EXPIRED = 2102,
-    ACCESS_TOKEN_MISSING = 2103,
-    INVALID_ACCESS_TOKEN = 2104,
-    ACCESS_TOKEN_EXPIRED = 2105,
-    UNAUTHORIZED = 2106,
-    FORBIDDEN = 2107,
-    INVALID_CODE = 2108,
-    CODE_EXPIRED = 2109,
-    CODE_ALREADY_USED = 2110,
-    CODE_MISSING = 2111,
+    AUTHENTICATION_FAILED          = 2100,
+    FORBIDDEN                      = 2101,
+    CODE_MISSING                   = 2105,
+    INVALID_CODE                   = 2106,
+    CODE_EXPIRED                   = 2107,
+    CODE_ALREADY_USED              = 2108,
+    REFRESH_TOKEN_MISSING          = 2109,
+    INVALID_REFRESH_TOKEN          = 2110,
+    REFRESH_TOKEN_EXPIRED          = 2111,
+    ACCESS_TOKEN_MISSING           = 2112,
+    INVALID_ACCESS_TOKEN           = 2113,
+    ACCESS_TOKEN_EXPIRED           = 2114,
+    UNAUTHORIZED                   = 2115,
 
     // ────────────────────────────────
     // Validation Errors (2200–2299)

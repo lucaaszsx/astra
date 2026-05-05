@@ -122,8 +122,15 @@ export default class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInt
         req: Request,
         res: Response<ApiResponse>
     ): Response<ApiResponse> {
+        const apiCode =
+            error.httpCode === 401
+                ? ApiErrorCodes.UNAUTHORIZED
+                : error.httpCode === 403
+                  ? ApiErrorCodes.FORBIDDEN
+                  : ApiErrorCodes.VALIDATION_FAILED;
+
         return sendApiResponse(req, res, {
-            apiCode: ApiErrorCodes.VALIDATION_FAILED,
+            apiCode,
             errorDetails: [error.message || 'Bad request']
         });
     }

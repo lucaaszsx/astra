@@ -13,7 +13,7 @@ export { BaseException } from './exceptions/Base';
 // ────────────────────────────────
 // Auth
 // ────────────────────────────────
-// export { AuthenticationFailedException } from './exceptions/auth/misc/AuthenticationFailed';
+export { AuthenticationFailedException } from './exceptions/auth/AuthenticationFailed';
 
 // export { RefreshTokenMissingException } from './exceptions/auth/tokens/RefreshTokenMissing';
 // export { InvalidRefreshTokenException } from './exceptions/auth/tokens/InvalidRefreshToken';
@@ -33,7 +33,7 @@ export { CodeMissingException } from './exceptions/auth/verification/CodeMissing
 // export { UserAlreadyExistsException } from './exceptions/users/UserAlreadyExists';
 export { UserNotFoundException } from './exceptions/users/UserNotFound';
 export { EmailAlreadyExistsException } from './exceptions/users/EmailAlreadyExists';
-// export { EmailNotVerifiedException } from './exceptions/users/EmailNotVerified';
+export { EmailNotVerifiedException } from './exceptions/users/EmailNotVerified';
 // export { UsernameAlreadyExistsException } from './exceptions/users/UsernameAlreadyExists';
 
 // ────────────────────────────────
@@ -45,6 +45,7 @@ export { NotFoundException } from './exceptions/domain/NotFound';
 // Infrastructure / Internal
 // ────────────────────────────────
 export { InternalErrorException } from './exceptions/infra/InternalError';
+export { NotImplementedException } from './exceptions/infra/NotImplemented';
 export { EmailCannotBeSentException } from './exceptions/infra/EmailCannotBeSent';
 
 // ────────────────────────────────

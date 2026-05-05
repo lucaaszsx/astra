@@ -7,6 +7,7 @@
 
 /** Constants */
 export { PermissionsFlags } from './constants/PermissionsFlags';
+export * from './constants/shared';
 
 /** Enums */
 export { VerificationContext } from './enums/VerificationContext';

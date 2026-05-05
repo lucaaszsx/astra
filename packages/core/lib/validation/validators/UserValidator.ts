@@ -1,8 +1,7 @@
 /**
  * @file UserValidator.ts
- * @description User data validator with static methods for name, email and password checks
- * Returns a standardized errors based on user rules
- *
+ * @description User data validator with static methods for name, email and password checks.
+ * Returns a standardized errors based on user rules.
  * @author Lucas
  * @license MIT
  */
@@ -44,18 +43,10 @@ export class UserValidator extends BaseValidator {
             UserErrors.PASSWORD.TOO_LONG
         );
 
-        if (!passRules.REGEX.FULL.test(entry)) {
-            errors.append(UserErrors.PASSWORD.INVALID_FORMAT);
-
-            if (!passRules.REGEX.LOWER.test(entry))
-                errors.append(UserErrors.PASSWORD.MISSING_LOWERCASE);
-            if (!passRules.REGEX.UPPER.test(entry))
-                errors.append(UserErrors.PASSWORD.MISSING_UPPERCASE);
-            if (!passRules.REGEX.NUMBER.test(entry))
-                errors.append(UserErrors.PASSWORD.MISSING_NUMBER);
-            if (!passRules.REGEX.SPECIAL.test(entry))
-                errors.append(UserErrors.PASSWORD.MISSING_SPECIAL);
-        }
+        if (!passRules.REGEX.LOWER.test(entry))   errors.append(UserErrors.PASSWORD.MISSING_LOWERCASE);
+        if (!passRules.REGEX.UPPER.test(entry))   errors.append(UserErrors.PASSWORD.MISSING_UPPERCASE);
+        if (!passRules.REGEX.NUMBER.test(entry))  errors.append(UserErrors.PASSWORD.MISSING_NUMBER);
+        if (!passRules.REGEX.SPECIAL.test(entry)) errors.append(UserErrors.PASSWORD.MISSING_SPECIAL);
 
         return errors;
     }

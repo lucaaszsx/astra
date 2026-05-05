@@ -6,10 +6,14 @@
  */
 
 import { IsRequiredEmail, IsRequiredString, IsStrongPassword } from '@/decorators';
-import { UserRules } from '@astra/core';
+import { VERIFICATION_CODE_LENGTH, UserRules } from '@astra/core';
 
 export class RegisterRequest {
-    @IsRequiredString(UserRules.NAME.MIN_LENGTH, UserRules.NAME.MAX_LENGTH, UserRules.NAME.REGEX)
+    @IsRequiredString(
+        UserRules.NAME.MIN_LENGTH,
+        UserRules.NAME.MAX_LENGTH,
+        UserRules.NAME.REGEX
+    )
     public name: string;
 
     @IsRequiredEmail()
@@ -27,7 +31,14 @@ export class LoginRequest {
     public password: string;
 }
 
-export class RefreshRequest {
-    @IsRequiredString()
-    public refreshToken: string;
+export class VerifyEmailRequest {
+    @IsRequiredEmail()
+    email: string;
+
+    @IsRequiredString(
+        VERIFICATION_CODE_LENGTH,
+        VERIFICATION_CODE_LENGTH,
+        /^\d+$/
+    )
+    code: string;
 }

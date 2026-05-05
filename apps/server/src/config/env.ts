@@ -33,7 +33,7 @@ const Server = {
         },
         json: {
             limit: getEnvVariable('SERVER_JSON_LIMIT'),
-            inflate: getEnvVariable('SERVER_JSON_INFLATE')
+            inflate: getEnvVariable('SERVER_JSON_INFLATE', EnvType.Bool)
         },
         urlencoded: {
             limit: getEnvVariable('SERVER_URLENCODED_LIMIT')
@@ -69,7 +69,7 @@ const App = {
 
 const R2 = {
     accessKeyId: getEnvVariable('R2_ACCESS_KEY_ID'),
-    secretAccessKey: getEnvVariable('R2_SECRET_ACESS_KEY'),
+    secretAccessKey: getEnvVariable('R2_SECRET_ACCESS_KEY'),
     accountId: getEnvVariable('R2_ACCOUNT_ID'),
     bucket: getEnvVariable('R2_BUCKET_NAME'),
     endpoint: getEnvVariable('R2_ENDPOINT'),
@@ -110,7 +110,10 @@ const Jwt = {
 };
 
 const Auth = {
-    codeExpiresIn: getEnvVariable('AUTH_CODE_EXPIRES_IN')
+    ttl: {
+        emailConfirmation: getEnvVariable('AUTH_CODE_TTL_EMAIL_CONFIRMATION'),
+        passwordReset: getEnvVariable('AUTH_CODE_TTL_PASSWORD_RESET')
+    }
 };
 
 export const Env = {

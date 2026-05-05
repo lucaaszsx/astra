@@ -5,12 +5,10 @@
  * @license MIT
  */
 
-import { PrivateUserModel } from './models';
+export class LoginResponse {
+    public accessToken: string;
 
-export class RegisterUserResponse {
-    public user: PrivateUserModel;
-
-    constructor(data: RegisterUserResponse) {
-        this.user = data.user;
+    constructor(data: LoginResponse) {
+        this.accessToken = data.accessToken;
     }
 }

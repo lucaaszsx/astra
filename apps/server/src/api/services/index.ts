@@ -5,6 +5,7 @@
  * @license MIT
  */
 
-export { AuthService } from './AuthService';
+export { VerificationService } from './VerificationService';
 export { UserService } from './UserService';
+export { AuthService } from './AuthService';
 // export { RoleService } from './RoleService';

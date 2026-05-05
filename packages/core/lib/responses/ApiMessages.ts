@@ -25,18 +25,21 @@ export const ApiErrorMessages: Record<ApiErrorCodes, string> = {
     // ────────────────────────────────
     // Authentication & Authorization
     // ────────────────────────────────
-    [ApiErrorCodes.REFRESH_TOKEN_MISSING]: 'Refresh token is missing from the request',
-    [ApiErrorCodes.INVALID_REFRESH_TOKEN]: 'Provided refresh token is invalid or malformed',
-    [ApiErrorCodes.REFRESH_TOKEN_EXPIRED]: 'Refresh token has expired and can no longer be used',
-    [ApiErrorCodes.ACCESS_TOKEN_MISSING]: 'Access token is missing from the request',
-    [ApiErrorCodes.INVALID_ACCESS_TOKEN]: 'Provided access token is invalid or malformed',
-    [ApiErrorCodes.ACCESS_TOKEN_EXPIRED]: 'Access token has expired, please refresh your session',
+    [ApiErrorCodes.AUTHENTICATION_FAILED]: 'The credentials provided are invalid or do not match',
+    [ApiErrorCodes.FORBIDDEN]: 'Access denied due to insufficient permissions',
+    [ApiErrorCodes.INVALID_CODE]: 'Provided code is invalid or does not match the expected format',
+    [ApiErrorCodes.CODE_MISSING]:
+        'Verification code is required but was not provided in the request',
+    [ApiErrorCodes.CODE_EXPIRED]: 'Verification code has expired and is no longer valid',
+    [ApiErrorCodes.CODE_ALREADY_USED]:
+        'Verification code has already been used and cannot be reused',
+    [ApiErrorCodes.REFRESH_TOKEN_MISSING]: 'No refresh token provided in the request',
+    [ApiErrorCodes.INVALID_REFRESH_TOKEN]: 'Refresh token is malformed or invalid',
+    [ApiErrorCodes.REFRESH_TOKEN_EXPIRED]: 'Refresh token has expired and is no longer valid',
+    [ApiErrorCodes.ACCESS_TOKEN_MISSING]: 'No access token provided in the request',
+    [ApiErrorCodes.INVALID_ACCESS_TOKEN]: 'Access token is malformed or invalid',
+    [ApiErrorCodes.ACCESS_TOKEN_EXPIRED]: 'Access token has expired and is no longer valid',
     [ApiErrorCodes.UNAUTHORIZED]: 'Authentication is required to access this resource',
-    [ApiErrorCodes.FORBIDDEN]: 'You do not have permission to perform this action',
-    [ApiErrorCodes.INVALID_CODE]: 'Provided verification code is invalid',
-    [ApiErrorCodes.CODE_EXPIRED]: 'Verification code has expired and can no longer be used',
-    [ApiErrorCodes.CODE_ALREADY_USED]: 'Verification code has already been used',
-    [ApiErrorCodes.CODE_MISSING]: 'Verification code is missing from the request',
 
     // ────────────────────────────────
     // Validation Errors

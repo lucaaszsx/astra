@@ -1,5 +1,5 @@
 /**
- * @file
+ * @file constants.ts
  * @description General purporse constants.
  * @author Lucas
  * @license MIT

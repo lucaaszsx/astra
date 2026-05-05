@@ -58,6 +58,19 @@ export class UserService {
 
         return user;
     }
+
+    public async findByEmailWithPassword(email: string): Promise<UserEntity> {
+        const user = await userRepository
+            .createQueryBuilder('user')
+            .addSelect('user.password')
+            .where('user.email = :email', { email })
+            .andWhere('user.isActive = true')
+            .getOne();
+
+        if (!user) throw new UserNotFoundException();
+
+        return user;
+    }
     
     public existsById(id: string): Promise<boolean> {
         return userRepository.exists({ where: { id } });

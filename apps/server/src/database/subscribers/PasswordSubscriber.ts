@@ -32,8 +32,4 @@ export class PasswordSubscriber implements EntitySubscriberInterface<UserEntity>
 
         event.entity!.password = await bcrypt.hash(password, SALT_ROUNDS);
     }
-
-    public static verify(plain: string, hashed: string): Promise<boolean> {
-        return bcrypt.compare(plain, hashed);
-    }
 }
