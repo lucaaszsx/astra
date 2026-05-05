@@ -48,6 +48,7 @@ declare namespace NodeJS {
 
         APP_DIRS_CONTROLLERS: string;
         APP_DIRS_MIDDLEWARES: string;
+        APP_DIRS_INTERCEPTORS: string;
         APP_DIRS_ENTITIES: string;
         APP_DIRS_MIGRATIONS: string;
         APP_DIRS_SUBSCRIBERS: string;
@@ -67,13 +68,24 @@ declare namespace NodeJS {
         // ────────────────────────────────
         // Cloudflare R2
         // ────────────────────────────────
-        EXTERNAL_R2_ACCESS_KEY_ID: string;
-        EXTERNAL_R2_SECRET_ACESS_KEY: string;
-        EXTERNAL_R2_ACCOUNT_ID: string;
-        EXTERNAL_R2_BUCKET_NAME: string;
-        EXTERNAL_R2_ENDPOINT: string;
-        EXTERNAL_R2_PUB_ENDPOINT?: string;
-        EXTERNAL_R2_REGION: string;
+        R2_ACCESS_KEY_ID: string;
+        R2_SECRET_ACCESS_KEY: string;
+        R2_ACCOUNT_ID: string;
+        R2_BUCKET_NAME: string;
+        R2_ENDPOINT: string;
+        R2_PUB_ENDPOINT?: string;
+        R2_REGION: string;
+
+        // ────────────────────────────────
+        // SMTP
+        // ────────────────────────────────
+        SMTP_HOST: string;
+        SMTP_PORT: string;
+        SMTP_SECURE: string;
+        SMTP_NAME: string;
+        SMTP_USER: string;
+        SMTP_PASS: string;
+        SMTP_FROM: string;
 
         // ────────────────────────────────
         // JWT
@@ -82,5 +94,11 @@ declare namespace NodeJS {
         JWT_REFRESH_SECRET: string;
         JWT_ACCESS_EXPIRES_IN: string;
         JWT_REFRESH_EXPIRES_IN: string;
+
+        // ────────────────────────────────
+        // Auth
+        // ────────────────────────────────
+        AUTH_CODE_TTL_EMAIL_CONFIRMATION: string;
+        AUTH_CODE_TTL_PASSWORD_RESET: string;
     }
 }
