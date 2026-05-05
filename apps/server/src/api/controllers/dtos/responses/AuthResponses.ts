@@ -8,7 +8,7 @@
 export class LoginResponse {
     public accessToken: string;
 
-    constructor(data: LoginResponse) {
+    constructor(data: { accessToken: string }) {
         this.accessToken = data.accessToken;
     }
 }
