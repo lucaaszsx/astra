@@ -6,11 +6,10 @@
  * @license MIT
  */
 
-import { JsonController, Get, Req, Authorized } from 'routing-controllers';
-import { PrivateUserModel } from './dtos/responses/models';
-import { BaseController } from './BaseController';
+import { JsonController, CurrentUser, Authorized, Get, Req } from 'routing-controllers';
 import { UserService } from '../services/UserService';
-import type { ApiResponse } from '@astra/core';
+import { BaseController } from './BaseController';
+import { UserEntity } from '@/database/entities';
 import type { Request } from 'express';
 import { Service } from 'typedi';
 
@@ -20,5 +19,13 @@ import { Service } from 'typedi';
 export class UserController extends BaseController {
     constructor(private readonly userService: UserService) {
         super();
+    }
+
+    @Get('/@me')
+    public async me(
+        @Req() req: Request,
+        @CurrentUser() user: UserEntity
+    ) {
+        return this.ok(req, user);
     }
 }
