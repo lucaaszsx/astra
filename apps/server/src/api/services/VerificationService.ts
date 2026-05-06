@@ -8,15 +8,14 @@
 import { CodeAlreadyUsedException, CodeExpiredException, InvalidCodeException } from '../responses';
 import { VERIFICATION_CODE_LENGTH, VerificationContext } from '@astra/core';
 import { VerificationCodeEntity, UserEntity } from '@/database/entities';
+import { type LoggerInterface, LoggerDecorator } from '@/lib/logger';
 import { appDataSource } from '@/database/AppDataSource';
-import type { LoggerInterface } from '@/lib/logger';
 import { MailerService } from '@/external/mailer';
-import { LoggerDecorator } from '@/decorators';
+import { UserService } from './UserService';
 import { randomInt } from 'node:crypto';
 import { Env } from '@/config/env';
 import { Service } from 'typedi';
 import ms from 'ms';
-import { UserService } from './UserService';
 
 const VERIFICATION_CODE_TTL_MAP: Record<VerificationContext, ms.StringValue> = {
     [VerificationContext.EMAIL_CONFIRMATION]: Env.Auth.ttl.emailConfirmation,

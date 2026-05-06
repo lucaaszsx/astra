@@ -10,3 +10,6 @@ export { type LoggerInterface, LoggerLevels, Logger } from './Logger';
 
 /** Logger context */
 export { type RequestContext, loggerContext } from './LoggerContext';
+
+/** Logger decorator */
+export { LoggerDecorator } from './LoggerDecorator';

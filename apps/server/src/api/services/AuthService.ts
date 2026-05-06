@@ -11,12 +11,11 @@ import {
     EmailNotVerifiedException
 } from '../responses';
 import { RefreshTokenEntity, SessionEntity, UserEntity } from '@/database/entities';
+import { type LoggerInterface, LoggerDecorator } from '@/lib/logger';
 import { VerificationService } from './VerificationService';
 import { appDataSource } from '@/database/AppDataSource';
 import { TokenService, TokenPair } from '@/lib/auth';
-import type { LoggerInterface } from '@/lib/logger';
 import { VerificationContext } from '@astra/core';
-import { LoggerDecorator } from '@/decorators';
 import { UserService } from './UserService';
 import { Service } from 'typedi';
 import bcrypt from 'bcrypt';

@@ -14,10 +14,9 @@ import {
     GetObjectCommand,
     S3Client
 } from '@aws-sdk/client-s3';
+import { type LoggerInterface, LoggerDecorator } from '@/lib/logger';
 import { FolderTypes, Constraints, streamToBuffer } from './utils';
 import { extension as mimeToExtension } from 'mime-types';
-import { LoggerDecorator } from '@/decorators';
-import { LoggerInterface } from '@/lib/logger';
 import { Readable } from 'node:stream';
 import { Env } from '@/config/env';
 import { Service } from 'typedi';

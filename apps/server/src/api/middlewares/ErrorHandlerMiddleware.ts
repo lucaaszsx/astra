@@ -13,13 +13,12 @@ import {
     Middleware,
     HttpError
 } from 'routing-controllers';
+import { type LoggerInterface, LoggerDecorator } from '@/lib/logger';
 import { BaseException } from '../responses/exceptions/Base';
 import { type ApiResponse, ApiErrorCodes } from '@astra/core';
-import type { LoggerInterface } from '@/lib/logger';
 import { ValidationError } from 'class-validator';
 import type { Request, Response } from 'express';
 import { sendApiResponse } from '../responses';
-import { LoggerDecorator } from '@/decorators';
 import { Env } from '@/config/env';
 import { Service } from 'typedi';
 

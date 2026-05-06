@@ -23,8 +23,7 @@ import nodemailer, {
     type Transporter
 } from 'nodemailer';
 import { EmailCannotBeSentException } from '@/api/responses';
-import type { LoggerInterface } from '@/lib/logger';
-import { LoggerDecorator } from '@/decorators';
+import { type LoggerInterface, LoggerDecorator } from '@/lib/logger';
 import { Env } from '@/config/env';
 import { Service } from 'typedi';
 

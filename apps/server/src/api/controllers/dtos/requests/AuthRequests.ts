@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-import { IsRequiredEmail, IsRequiredString, IsStrongPassword } from '@/decorators';
+import { IsRequiredEmail, IsRequiredString, IsStrongPassword } from '@/api/decorators';
 import { VERIFICATION_CODE_LENGTH, UserRules } from '@astra/core';
 
 export class RegisterRequest {

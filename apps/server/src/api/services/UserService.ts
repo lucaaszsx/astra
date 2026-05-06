@@ -7,10 +7,9 @@
 
 import type { CreateUserOptions, FindUsersOptions, UpdateUserOptions } from './types';
 import { EmailAlreadyExistsException, UserNotFoundException } from '../responses';
-import type { UserEntity } from '@/database/entities/user/UserEntity';
+import { type LoggerInterface, LoggerDecorator } from '@/lib/logger';
 import { userRepository } from '@/database/repositories';
-import type { LoggerInterface } from '@/lib/logger';
-import { LoggerDecorator } from '@/decorators';
+import type { UserEntity } from '@/database/entities';
 import { Service } from 'typedi';
 
 @Service()
