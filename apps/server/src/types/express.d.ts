@@ -1,11 +1,11 @@
-import type { DecodedAccessToken } from '@/lib/auth';
+import type { AccessTokenPayload } from '@/lib/auth';
 
 export {};
 
 declare global {
     namespace Express {
         interface Request {
-            user?: DecodedAccessToken;
+            user?: AccessTokenPayload;
         }
     }
 }
