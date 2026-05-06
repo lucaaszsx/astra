@@ -1,56 +1,60 @@
 {
-    "$schema": "https://json.schemastore.org/package.json",
-    "name": "astra",
-    "description": "Astra is a streaming service for films and series, designed to help you discover and watch content easily in one place.",
-    "type": "module",
-    "license": "MIT",
-    "private": true,
-    "keywords": [
-        "movies",
-        "series",
-        "streaming",
-        "subscriptions",
-        "cinema",
-        "action",
-        "science",
-        "romance",
-        "horror",
-        "tv"
-    ],
-    "contributors": [
-        {
-            "email": "jlucasmelob558@gmail.com",
-            "name": "Lucas Melo",
-            "url": "https://github.com/lucaaszsx"
-        },
-        {
-            "email": "ngeff@outlook.com.br",
-            "name": "Geferson Amaro",
-            "url": "https://github.com/NGeff"
-        }
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/lucaaszsx/astra.git"
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "astra",
+  "description": "Astra is a streaming service for films and series, designed to help you discover and watch content easily in one place.",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "movies",
+    "series",
+    "streaming",
+    "subscriptions",
+    "cinema",
+    "action",
+    "science",
+    "romance",
+    "horror",
+    "tv"
+  ],
+  "contributors": [
+    {
+      "email": "jlucasmelob558@gmail.com",
+      "name": "Lucas Melo",
+      "url": "https://github.com/lucaaszsx"
     },
-    "bugs": {
-        "url": "https://github.com/lucaaszsx/astra/issues"
-    },
-    "homepage": "https://github.com/lucaaszsx/astra#README",
-    "scripts": {
-        "build": "turbo run build",
-        "dev": "turbo run dev",
-        "lint": "turbo run lint",
-        "format": "prettier --write .",
-        "format:check": "prettier --check ."
-    },
-    "packageManager": "pnpm@10.28.0",
-    "engines": {
-        "node": ">=18"
-    },
-    "devDependencies": {
-        "prettier": "^3.6.2",
-        "turbo": "^2.6.1",
-        "typescript": "5.9.2"
+    {
+      "email": "ngeff@outlook.com.br",
+      "name": "Geferson Amaro",
+      "url": "https://github.com/NGeff"
     }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lucaaszsx/astra.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lucaaszsx/astra/issues"
+  },
+  "homepage": "https://github.com/lucaaszsx/astra#README",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.3",
+    "@commitlint/config-conventional": "^20.5.3",
+    "husky": "^9.1.7",
+    "prettier": "^3.6.2",
+    "turbo": "^2.6.1",
+    "typescript": "5.9.2"
+  }
 }
