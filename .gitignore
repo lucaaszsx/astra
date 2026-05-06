@@ -33,9 +33,6 @@ dist
 # Turbo
 .turbo
 
-# Husky
-.husky
-
 # Cache
 .prettiercache
 .eslintcache
