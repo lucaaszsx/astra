@@ -6,5 +6,4 @@
  */
 
 export { UserValidator } from './UserValidator';
-export { RoleValidator } from './RoleValidator';
 export { BaseValidator } from './BaseValidator';

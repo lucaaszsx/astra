@@ -6,5 +6,4 @@
  */
 
 export { UserErrors } from './UserErrors';
-export { RoleErrors } from './RoleErrors';
 export { ErrorList } from './ErrorList';

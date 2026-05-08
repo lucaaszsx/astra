@@ -28,16 +28,14 @@ export class UserEntity extends BaseEntity {
     })
     public password: string;
 
+    @Column({ name: 'is_admin', type: 'boolean', default: false })
+    public isAdmin: boolean;
+
     @Column({ name: 'is_active', type: 'boolean', default: true })
     public isActive: boolean;
 
     @Column({ name: 'is_verified', type: 'boolean', default: false })
     public isVerified: boolean;
-
-    @ManyToOne(() => RoleEntity, (role) => role.users, { nullable: true })
-    @JoinColumn({ name: 'role_id' })
-    @Index('idx_users_role_id')
-    public role: Relation<RoleEntity> | null;
 
     @OneToMany(() => SessionEntity, (session) => session.user)
     public sessions: Relation<SessionEntity[]>;

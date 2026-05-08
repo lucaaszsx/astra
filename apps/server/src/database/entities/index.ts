@@ -8,8 +8,7 @@
 // ────────────────────────────────
 // User
 // ────────────────────────────────
-export { UserEntity }             from './user/UserEntity';
-export { RoleEntity }             from './user/RoleEntity';
-export { SessionEntity }          from './user/SessionEntity';
-export { RefreshTokenEntity }     from './user/RefreshTokenEntity';
 export { VerificationCodeEntity } from './user/VerificationCodeEntity';
+export { RefreshTokenEntity }     from './user/RefreshTokenEntity';
+export { SessionEntity }          from './user/SessionEntity';
+export { UserEntity }             from './user/UserEntity';

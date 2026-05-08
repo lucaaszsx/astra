@@ -6,4 +6,3 @@
  */
 
 export { UserRules } from './UserRules';
-export { RoleRules } from './RoleRules';
