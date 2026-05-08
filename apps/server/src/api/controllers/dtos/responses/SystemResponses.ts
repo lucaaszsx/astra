@@ -5,9 +5,4 @@
  * @license MIT
  */
 
-import { Expose } from 'class-transformer';
-
-export class PingResponse {
-    @Expose()
-    message!: string;
-}
+// nothing for now...

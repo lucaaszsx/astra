@@ -5,10 +5,8 @@
  * @license MIT
  */
 
-import type { PingResponse } from './dtos/responses/SystemResponses';
 import { JsonController, Get, Req } from 'routing-controllers';
 import { BaseController } from './BaseController';
-import type { ApiResponse } from '@astra/core';
 import type { Request } from 'express';
 import { Service } from 'typedi';
 
@@ -16,9 +14,7 @@ import { Service } from 'typedi';
 @JsonController('/system')
 export class SystemController extends BaseController {
     @Get('/ping')
-    ping(@Req() req: Request): ApiResponse<PingResponse> {
-        return this.ok<PingResponse>(req, {
-            message: 'Pong! 🏓'
-        });
+    public ping(@Req() req: Request) {
+        return this.ok(req, { message: 'Pong! 🏓' });
     }
 }
