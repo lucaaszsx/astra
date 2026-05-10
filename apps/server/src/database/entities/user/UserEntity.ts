@@ -1,11 +1,12 @@
-import { type Relation, JoinColumn, ManyToOne, OneToMany, Column, Entity, Index } from 'typeorm';
+import { type Relation, OneToMany, Column, Entity, Index } from 'typeorm';
 import { VerificationCodeEntity } from './VerificationCodeEntity';
 import { SessionEntity } from './SessionEntity';
 import { BaseEntity } from '../BaseEntity';
-import { RoleEntity } from './RoleEntity';
 import { UserRules } from '@astra/core';
 
 @Entity({ name: 'users' })
+@Index('idx_users_email_is_active', ['email', 'isActive'])
+@Index('idx_users_id_is_active', ['id', 'isActive'])
 export class UserEntity extends BaseEntity {
     @Column({
         name: 'name',
