@@ -14,10 +14,11 @@ export { BaseException } from './exceptions/Base';
 // Auth
 // ────────────────────────────────
 export { AuthenticationFailedException } from './exceptions/auth/AuthenticationFailed';
+export { ForbiddenException } from './exceptions/auth/Forbidden';
 
-// export { InvalidRefreshTokenException } from './exceptions/auth/tokens/InvalidRefreshToken';
-// export { RefreshTokenMissingException } from './exceptions/auth/tokens/RefreshTokenMissing';
-// export { RefreshTokenExpiredException } from './exceptions/auth/tokens/RefreshTokenExpired';
+export { InvalidRefreshTokenException } from './exceptions/auth/tokens/InvalidRefreshToken';
+export { RefreshTokenMissingException } from './exceptions/auth/tokens/RefreshTokenMissing';
+export { RefreshTokenExpiredException } from './exceptions/auth/tokens/RefreshTokenExpired';
 
 export { AccessTokenMissingException } from './exceptions/auth/tokens/AccessTokenMissing';
 export { InvalidAccessTokenException } from './exceptions/auth/tokens/InvalidAccessToken';
