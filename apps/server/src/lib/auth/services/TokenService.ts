@@ -39,6 +39,16 @@ export class TokenService {
     }
 
     /**
+     * Decodes an access token without validating its expiry.
+     * Throws a JsonWebTokenError if the token is malformed or the signature is invalid.
+     */
+    public static decodeAccessToken(token: string): DecodedAccessToken {
+        return jwt.verify(token, Env.Jwt.accessSecret, {
+            ignoreExpiration: true
+        }) as DecodedAccessToken;
+    }
+
+    /**
      * Checks whether an access token payload contains all required fields with the expected types.
      */
     public static isValidAccessPayload(payload: unknown): payload is DecodedAccessToken {
