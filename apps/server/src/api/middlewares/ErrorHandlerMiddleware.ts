@@ -10,6 +10,7 @@
 import {
     ExpressErrorMiddlewareInterface,
     BadRequestError,
+    NotFoundError,
     Middleware,
     HttpError
 } from 'routing-controllers';
@@ -121,6 +122,12 @@ export default class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInt
         req: Request,
         res: Response<ApiResponse>
     ): Response<ApiResponse> {
+        // routing-controllers throws NotFoundError when a handler returns undefined.
+        // Since real 404s are caught by NotFoundMiddleware before reaching here,
+        // a NotFoundError at this point means the route exists but is not implemented.
+        if (error instanceof NotFoundError)
+            return sendApiResponse(req, res, { apiCode: ApiErrorCodes.NOT_IMPLEMENTED });
+
         const apiCode =
             error.httpCode === 401
                 ? ApiErrorCodes.UNAUTHORIZED
