@@ -39,6 +39,11 @@ declare namespace NodeJS {
         SERVER_URLENCODED_LIMIT: string;
 
         // ────────────────────────────────
+        // Cookie configuration
+        // ────────────────────────────────
+        COOKIE_SECRET: string;
+        
+        // ────────────────────────────────
         // Application
         // ────────────────────────────────
         APP_LOG_LEVEL: string;

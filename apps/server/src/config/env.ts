@@ -18,6 +18,8 @@ const Server = {
     port: getEnvVariable('SERVER_PORT'),
     baseUrl: getEnvVariable('SERVER_BASE_URL'),
     routePrefix: getEnvOptional('SERVER_ROUTE_PREFIX'),
+    cookieSecret: getEnvOptional('COOKIE_SECRET'),
+
     middlewares: {
         cors: {
             origins: parseEnvArray('SERVER_CORS_ORIGINS'),
