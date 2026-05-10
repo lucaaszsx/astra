@@ -80,6 +80,20 @@ export class AuthService {
             throw error;
         }
     }
+
+    public async logout(sessionId: string): Promise<void> {
+        this.logger.info('Starting logout');
+
+        await appDataSource.transaction(async (manager) => {
+            await manager.delete(RefreshTokenEntity, { sessionId });
+
+            await manager.update(SessionEntity, { id: sessionId }, {
+                revokedAt: new Date()
+            });
+        });
+
+        this.logger.info('Session revoked successfully');
+    }
     
     public async createSession(
         userId: string,
