@@ -10,6 +10,7 @@ export { VERIFICATION_CODE_LENGTH } from './constants/shared';
 
 /** Enums */
 export { VerificationContext } from './enums/VerificationContext';
+export { UserRole } from './enums/UserRole';
 
 /** Helpers */
 export { isApiResponse } from './helpers/guards';
