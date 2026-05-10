@@ -7,7 +7,12 @@
 
 import {
     AuthenticationFailedException,
+    InvalidRefreshTokenException,
+    RefreshTokenExpiredException,
+    RefreshTokenMissingException,
     EmailAlreadyExistsException,
+    AccessTokenMissingException,
+    InvalidAccessTokenException,
     EmailNotVerifiedException
 } from '../responses';
 import { RefreshTokenEntity, SessionEntity, UserEntity } from '@/database/entities';
@@ -93,6 +98,59 @@ export class AuthService {
         });
 
         this.logger.info('Session revoked successfully');
+    }
+
+    public async refresh(
+        currentAccessToken: string | undefined,
+        rawRefreshToken: string | undefined
+    ): Promise<TokenPair> {
+        this.logger.info('Starting token refresh');
+
+        if (!currentAccessToken)
+            throw new AccessTokenMissingException();
+        if (!rawRefreshToken)
+            throw new RefreshTokenMissingException();
+
+        let sessionId: string;
+        let sub: string;
+
+        try {
+            const payload = TokenService.decodeAccessToken(currentAccessToken);
+            sessionId = payload.sessionId;
+            sub = payload.sub;
+        } catch {
+            throw new InvalidAccessTokenException();
+        }
+
+        return appDataSource.transaction(async (manager) => {
+            const existing = await manager.findOne(RefreshTokenEntity, {
+                where: { sessionId }
+            });
+
+            if (!existing)
+                throw new InvalidRefreshTokenException();
+            if (new Date() > existing.expiresAt)
+                throw new RefreshTokenExpiredException();
+            if (TokenService.hashRefreshToken(rawRefreshToken) !== existing.token)
+                throw new InvalidRefreshTokenException();
+
+            await manager.remove(RefreshTokenEntity, existing);
+
+            const { accessToken, refreshToken, refreshTokenHashed } = TokenService.issueTokenPair({
+                sub,
+                sessionId
+            });
+
+            const newRefreshToken = manager.create(RefreshTokenEntity, {
+                sessionId,
+                token: refreshTokenHashed,
+                expiresAt: new Date(Date.now() + TokenService.getRefreshTokenTtlMs())
+            });
+
+            await manager.save(RefreshTokenEntity, newRefreshToken);
+
+            return { accessToken, refreshToken };
+        });
     }
     
     public async createSession(
