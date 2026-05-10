@@ -6,12 +6,13 @@
  */
 
 import { VerifyEmailRequest, RegisterRequest, LoginRequest } from './dtos/requests/AuthRequests';
-import { LoginResponse } from './dtos/responses/AuthResponses';
+import { JsonController, Authorized, Post, Body, Req, Res } from 'routing-controllers';
+import { AuthTokenResponse } from './dtos/responses/AuthResponses';
 import { VerificationService, AuthService } from '../services';
-import { JsonController, Post, Body, Req, Res } from 'routing-controllers';
 import { BaseController } from './BaseController';
-import { CookieService } from '@/lib/auth';
 import type { Request, Response } from 'express';
+import { AccessTokenPayload, CookieService } from '@/lib/auth';
+import { getAccessToken } from '../utils';
 import { Service } from 'typedi';
 
 @Service()
@@ -58,9 +59,39 @@ export class AuthController extends BaseController {
             userAgent
         );
 
-        CookieService.setRefreshToken(res, refreshToken);
+        const isMobile = CookieService.isMobileClient(req);
+        if (!isMobile) CookieService.setRefreshToken(res, refreshToken);
 
-        return this.ok<LoginResponse>(req, { accessToken });
+        return this.ok<AuthTokenResponse>(req, {
+            refreshToken: isMobile ? refreshToken : undefined,
+            accessToken
+        });
+    }
+
+    @Authorized()
+    @Post('/logout')
+    public async logout(@Req() req: Request, @Res() res: Response) {
+        await this.authService.logout((req.userPayload as AccessTokenPayload).sessionId);
+
+        CookieService.clearRefreshToken(res);
+
+        return this.ok<null>(req, null);
+    }
+
+    @Post('/refresh')
+    public async refresh(@Req() req: Request, @Res() res: Response) {
+        const currentAccessToken = getAccessToken(req);
+        const rawRefreshToken = CookieService.getRefreshToken(req);
+
+        const { accessToken, refreshToken } = await this.authService.refresh(currentAccessToken, rawRefreshToken);
+
+        const isMobile = CookieService.isMobileClient(req);
+        if (!isMobile) CookieService.setRefreshToken(res, refreshToken);
+
+        return this.ok<AuthTokenResponse>(req, {
+            refreshToken: isMobile ? refreshToken : undefined,
+            accessToken
+        });
     }
 
     @Post('/verify-email')
