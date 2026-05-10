@@ -12,11 +12,11 @@ import { Logger, loggerContext } from '@/lib/logger';
 import { mkdirSync, existsSync } from 'node:fs';
 import { Env } from '@/config/env';
 import DailyRotateFile from 'winston-daily-rotate-file';
-import chalk from 'chalk';
 
 export const LoggerLoader: MicroframeworkLoader = async (
     settings?: MicroframeworkSettings
 ): Promise<void> => {
+    const chalk = (await import('chalk')).default;
     const { logs: logConfig } = Env.App;
 
     if (!existsSync(logConfig.dirname)) mkdirSync(logConfig.dirname, { recursive: true });
