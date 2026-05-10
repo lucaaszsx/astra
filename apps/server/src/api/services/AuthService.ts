@@ -34,26 +34,6 @@ export class AuthService {
         private readonly userService: UserService
     ) {}
 
-    public async login(
-        email: string,
-        password: string,
-        ipAddress: string | null,
-        userAgent: string | null
-    ): Promise<TokenPair> {
-        this.logger.info('Starting login attempt');
-
-        const user = await this.userService.findByEmailWithPassword(email);
-
-        if (!await bcrypt.compare(password, user.password))
-            throw new AuthenticationFailedException();
-        if (!user.isVerified)
-            throw new EmailNotVerifiedException();
-
-        this.logger.info('Credentials valid, creating session');
-
-        return this.createSession(user.id, ipAddress, userAgent);
-    }
-
     public async register(options: {
         name: string;
         email: string;
@@ -84,6 +64,24 @@ export class AuthService {
 
             throw error;
         }
+    }
+
+    public async login(
+        email: string,
+        password: string,
+        ipAddress: string | null,
+        userAgent: string | null
+    ): Promise<TokenPair> {
+        this.logger.info('Starting login attempt');
+
+        const user = await this.userService.findByEmailWithPassword(email);
+
+        if (!await bcrypt.compare(password, user.password))
+            throw new AuthenticationFailedException();
+        if (!user.isVerified)
+            throw new EmailNotVerifiedException();
+
+        return this.createSession(user.id, ipAddress, userAgent);
     }
 
     public async logout(sessionId: string): Promise<void> {
@@ -158,6 +156,8 @@ export class AuthService {
         ipAddress: string | null,
         userAgent: string | null
     ): Promise<TokenPair> {
+        this.logger.info('Creating session');
+
         return appDataSource.transaction(async (manager) => {
             const session = manager.create(SessionEntity, {
                 userId,
